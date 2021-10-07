@@ -15,6 +15,7 @@
 #include "../Semaphore_Initialization.h"
 #include "../Shared_Resources.h"
 #include <ti/devices/cc13x0/driverlib/sys_ctrl.h>
+#include "HardLink.h"
 
 Task_Struct txDataTask;
 
@@ -38,7 +39,7 @@ uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 
 int done = 1;
 
-void lbtDoneCb(EasyLink_Status status)
+void lbtDoneCb(HardLink_Status status)
 {
     if (status == EasyLink_Status_Success)
     {
@@ -73,6 +74,12 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 {
 
 
+    HardLink_init();
+
+    HardLink_setRfPower(14);
+
+    EasyLink_setFrequency(915000000);
+
 	while(1) {
 
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
@@ -80,24 +87,23 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 		uint32_t absTime;
 		Power_setDependency(PowerCC26XX_PERIPH_TRNG);
 
-		EasyLink_Params easyLink_params;
-		EasyLink_Params_init(&easyLink_params);
+		//EasyLink_Params easyLink_params;
+		//EasyLink_Params_init(&easyLink_params);
 
 	//	easyLink_params.ui32ModType = EasyLink_Phy_50kbps2gfsk;
-		easyLink_params.ui32ModType = EasyLink_Phy_Custom;
-		easyLink_params.pGrnFxn = (EasyLink_GetRandomNumber)HalTRNG_GetTRNG;
+	//	easyLink_params.ui32ModType = EasyLink_Phy_Custom;
+	//	easyLink_params.pGrnFxn = (EasyLink_GetRandomNumber)HalTRNG_GetTRNG;
 
 		/* Initialize EasyLink */
-		if(EasyLink_init(&easyLink_params) != EasyLink_Status_Success)
+		/*if(EasyLink_init(&easyLink_params) != EasyLink_Status_Success)
 		{
 			System_abort("EasyLink_init failed");
-		}
+		}*/
 
-		EasyLink_setRfPower(14);
-		EasyLink_enableRxAddrFilter((uint8_t*)&AddressList, 1, 2);
-		EasyLink_setFrequency(915000000);
 
-		EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
+		//EasyLink_enableRxAddrFilter((uint8_t*)&AddressList, 1, 2);
+
+		HardLink_packet txPacket =  {NULL,0};
 
 		if(bAttemptRetransmission == false){
 
@@ -116,7 +122,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			txPacket.payload[8] = lowerPart(gx);
 			txPacket.payload[9] = upperPart(gy);
 			txPacket.payload[10] = lowerPart(gy);
-			txPacket.payload[11] = upperPart(gz);
+			/*txPacket.payload[11] = upperPart(gz);
 			txPacket.payload[12] = lowerPart(gz);
 
 			txPacket.payload[13] = upperPart(mx);
@@ -144,26 +150,21 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			for (i = 0; i < bytes_read; i++)
 			{
 			  txPacket.payload[i+29] = input[i];
-			}
+			}*/
 
-			int packetlen = RFEASYLINKTXPAYLOAD_LENGTH + bytes_read;
-			txPacket.len = packetlen;
-			txPacket.dstAddr[0] = 0x00;
+			int packetlen = 10;//RFEASYLINKTXPAYLOAD_LENGTH + bytes_read;
+			txPacket.size = packetlen;
+			//txPacket.dstAddr[0] = 0x00;
 //				txPacket.absTime = 0;
 			/* Set Tx absolute time to current time + 100ms */
-			if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
+			/*if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
 			{
 				// Problem getting absolute time
 			}
-			txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(0);
+			txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(0);*/
 		}
 
-		while (done){
-			EasyLink_transmitCcaAsync(&txPacket, lbtDoneCb);
-			Semaphore_pend(lbtDoneSemaphoreHandle, BIOS_WAIT_FOREVER);
-		}
-		done = 1;
-
+		HardLink_send(&txPacket);
 
 		Task_sleep(10000);
 		PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
