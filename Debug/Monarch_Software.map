@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker Unix v18.1.4                   
 ******************************************************************************
->> Linked Sun Jul 28 14:04:54 2019
+>> Linked Thu Oct  7 09:57:51 2021
 
 OUTPUT FILE NAME:   <Monarch_Software.out>
 ENTRY POINT SYMBOL: "ResetISR"  address: 00009041
@@ -928,8 +928,8 @@ section   page    origin      length       input sections
 .vecs      0    20000000    000000c8     NOLOAD SECTION
                   20000000    000000c8     hello_pem3.oem3 (.vecs)
 
-xdc.meta   0    00000000    000000fa     COPY SECTION
-                  00000000    000000fa     hello_pem3.oem3 (xdc.meta)
+xdc.meta   0    00000000    000000f7     COPY SECTION
+                  00000000    000000f7     hello_pem3.oem3 (xdc.meta)
 
 xdc.noload 
 *          0    00000000    00000000     COPY SECTION
@@ -1169,33 +1169,33 @@ xdc.noload
                   0000998c    00000038     drivers_cc13x0.aem3 : UARTCC26XX.oem3 (.text:readData)
                   000099c4    00000038     rom_sysbios.aem3 : rom_sysbios.obj (.text:ti_sysbios_family_arm_cc26xx_Timer_getCurrentTick__E)
                   000099fc    00000038     drivers_cc13x0.aem3 : UARTCC26XX.oem3 (.text:writeData)
-                  00009a34    00000038     rom_sysbios.aem3 : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
-                  00009a6c    00000036                      : rom_sysbios.obj (.text:ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E)
-                  00009aa2    00000002     smartrf_settings_predefined.obj (.text:enterGenfskSysPatch)
-                  00009aa4    00000034     driverlib.lib : aux_adc.obj (.text:NOROM_AUXADCDisableInputScaling)
-                  00009ad8    00000034                   : osc.obj (.text:NOROM_OSCHF_SwitchToRcOscTurnOffXosc)
-                  00009b0c    00000034                   : trng.obj (.text:NOROM_TRNGConfigure)
-                  00009b40    00000034     drivers_cc13x0.aem3 : PINCC26XX.oem3 (.text:PIN_setConfig)
-                  00009b74    00000034                         : PowerCC26XX.oem3 (.text:Power_releaseConstraint)
-                  00009ba8    00000034     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_powerConstraintRelease)
-                  00009bdc    00000034                              : RFCC26XX_multiMode.oem3 (.text:RF_runDirectImmediateCmd)
-                  00009c10    00000034     rtsv7M3_T_le_eabi.lib : trgmsg.c.obj (.text:__TI_readmsg)
-                  00009c44    00000034     drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:notify)
-                  00009c78    00000034     rtsv7M3_T_le_eabi.lib : rand.c.obj (.text:rand)
-                  00009cac    00000034     rom_sysbios.aem3 : rom_sysbios.obj (.text:ti_sysbios_family_arm_cc26xx_Timer_initDevice__I)
-                  00009ce0    00000034     ti.uia.loggers.aem3 : LoggerStopMode.oem3 (.text:ti_uia_loggers_LoggerStopMode_reset__E)
-                  00009d14    00000030     driverlib.lib : chipinfo.obj (.text:NOROM_ChipInfo_GetChipType)
-                  00009d44    00000030                   : setup_rom.obj (.text:NOROM_SetupSetAonRtcSubSecInc)
-                  00009d74    00000030     drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:Power_setConstraint)
-                  00009da4    00000030     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_queueEnd)
-                  00009dd4    00000030     driverlib.lib : adi.obj (.text:SafeHapiAuxAdiSelect)
-                  00009e04    00000030     drivers_cc13x0.aem3 : WatchdogCC26XX.oem3 (.text:WatchdogCC26XX_setReload)
-                  00009e34    00000030     main.obj (.text:initI2C)
-                  00009e64    00000030     drivers_cc13x0.aem3 : UARTCC26XX.oem3 (.text:readData2RingBuf)
-                  00009e94    00000030     hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
-                  00009ec4    00000030     hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
-                  00009ef4    00000030     hello_pem3.oem3 (.text:ti_uia_loggers_LoggerStopMode_Object__create__S)
-                  00009f24    00000030     rom_sysbios.aem3 : rom_sysbios.obj (.text:xdc_runtime_SysMin_abort__E)
+                  00009a34    00000036     rom_sysbios.aem3 : rom_sysbios.obj (.text:ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E)
+                  00009a6a    00000002     smartrf_settings_predefined.obj (.text:enterGenfskSysPatch)
+                  00009a6c    00000034     driverlib.lib : aux_adc.obj (.text:NOROM_AUXADCDisableInputScaling)
+                  00009aa0    00000034                   : osc.obj (.text:NOROM_OSCHF_SwitchToRcOscTurnOffXosc)
+                  00009ad4    00000034                   : trng.obj (.text:NOROM_TRNGConfigure)
+                  00009b08    00000034     drivers_cc13x0.aem3 : PINCC26XX.oem3 (.text:PIN_setConfig)
+                  00009b3c    00000034                         : PowerCC26XX.oem3 (.text:Power_releaseConstraint)
+                  00009b70    00000034     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_powerConstraintRelease)
+                  00009ba4    00000034                              : RFCC26XX_multiMode.oem3 (.text:RF_runDirectImmediateCmd)
+                  00009bd8    00000034     rtsv7M3_T_le_eabi.lib : trgmsg.c.obj (.text:__TI_readmsg)
+                  00009c0c    00000034     drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:notify)
+                  00009c40    00000034     rtsv7M3_T_le_eabi.lib : rand.c.obj (.text:rand)
+                  00009c74    00000034     rom_sysbios.aem3 : rom_sysbios.obj (.text:ti_sysbios_family_arm_cc26xx_Timer_initDevice__I)
+                  00009ca8    00000034     ti.uia.loggers.aem3 : LoggerStopMode.oem3 (.text:ti_uia_loggers_LoggerStopMode_reset__E)
+                  00009cdc    00000034     rom_sysbios.aem3 : rom_sysbios.obj (.text:xdc_runtime_SysMin_abort__E)
+                  00009d10    00000034                      : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
+                  00009d44    00000030     driverlib.lib : chipinfo.obj (.text:NOROM_ChipInfo_GetChipType)
+                  00009d74    00000030                   : setup_rom.obj (.text:NOROM_SetupSetAonRtcSubSecInc)
+                  00009da4    00000030     drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:Power_setConstraint)
+                  00009dd4    00000030     rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_queueEnd)
+                  00009e04    00000030     driverlib.lib : adi.obj (.text:SafeHapiAuxAdiSelect)
+                  00009e34    00000030     drivers_cc13x0.aem3 : WatchdogCC26XX.oem3 (.text:WatchdogCC26XX_setReload)
+                  00009e64    00000030     main.obj (.text:initI2C)
+                  00009e94    00000030     drivers_cc13x0.aem3 : UARTCC26XX.oem3 (.text:readData2RingBuf)
+                  00009ec4    00000030     hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
+                  00009ef4    00000030     hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+                  00009f24    00000030     hello_pem3.oem3 (.text:ti_uia_loggers_LoggerStopMode_Object__create__S)
                   00009f54    0000002e     driverlib.lib : rfc.obj (.text:NOROM_RFCOverrideSearch)
                   00009f82    0000002e     hello_pem3.oem3 (.text:ti_sysbios_rts_gnu_MemAlloc_alloc)
                   00009fb0    0000002c     driverlib.lib : ddi.obj (.text:NOROM_DDI32RegWrite)
@@ -1612,12 +1612,12 @@ MODULE SUMMARY
     +--+---------------------------------+-------+---------+---------+
        Total:                            3334    18740     1156   
                                                                   
-    /Users/hunteradams/Documents/MSP430/workspace/Monarch_Software/Debug/configPkg/package/cfg/
+    /home/phoenix/zztools/code_composer_studio/Monarch_Software/Debug/configPkg/package/cfg/
        hello_pem3.oem3                   2214    1713      3952   
     +--+---------------------------------+-------+---------+---------+
        Total:                            2214    1713      3952   
                                                                   
-    /Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib/rtsv7M3_T_le_eabi.lib
+    /home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib/rtsv7M3_T_le_eabi.lib
        vla_alloc.c.obj                   548     0         28     
        trgmsg.c.obj                      108     0         288    
        memcpy_t2.asm.obj                 156     0         0      
@@ -1640,12 +1640,7 @@ MODULE SUMMARY
     +--+---------------------------------+-------+---------+---------+
        Total:                            1514    0         340    
                                                                   
-    /Users/hunteradams/Documents/MSP430/workspace/Monarch_Software/src/sysbios/rom_sysbios.aem3
-       rom_sysbios.obj                   1280    0         0      
-    +--+---------------------------------+-------+---------+---------+
-       Total:                            1280    0         0      
-                                                                  
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/dpl/lib/dpl_cc13x0.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/dpl/lib/dpl_cc13x0.aem3
        PowerCC26XX_tirtos.oem3           296     0         8      
        ClockP_tirtos.oem3                130     0         4      
        HwiP_tirtos.oem3                  110     0         0      
@@ -1654,27 +1649,27 @@ MODULE SUMMARY
     +--+---------------------------------+-------+---------+---------+
        Total:                            702     0         12     
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/targets/arm/rtsarm/lib/auto_init.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/targets/arm/rtsarm/lib/auto_init.aem3
        auto_init.oem3                    160     0         0      
     +--+---------------------------------+-------+---------+---------+
        Total:                            160     0         0      
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/targets/arm/rtsarm/lib/boot.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/targets/arm/rtsarm/lib/boot.aem3
        boot.oem3                         68      0         0      
     +--+---------------------------------+-------+---------+---------+
        Total:                            68      0         0      
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/uia/loggers/lib/release/ti.uia.loggers.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/uia/loggers/lib/release/ti.uia.loggers.aem3
        LoggerStopMode.oem3               552     0         0      
     +--+---------------------------------+-------+---------+---------+
        Total:                            552     0         0      
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/uia/runtime/lib/release/ti.uia.runtime.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/uia/runtime/lib/release/ti.uia.runtime.aem3
        QueueDescriptor.oem3              116     0         8      
     +--+---------------------------------+-------+---------+---------+
        Total:                            116     0         8      
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/devices/cc13x0/driverlib/bin/ccs/driverlib.lib
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/devices/cc13x0/driverlib/bin/ccs/driverlib.lib
        setup_rom.obj                     1456    0         0      
        sys_ctrl.obj                      760     0         8      
        rfc.obj                           694     24        0      
@@ -1693,7 +1688,7 @@ MODULE SUMMARY
     +--+---------------------------------+-------+---------+---------+
        Total:                            4694    24        29     
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/lib/drivers_cc13x0.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/lib/drivers_cc13x0.aem3
        UARTCC26XX.oem3                   2700    108       2      
        PowerCC26XX.oem3                  2108    76        276    
        PINCC26XX.oem3                    1322    0         276    
@@ -1710,10 +1705,15 @@ MODULE SUMMARY
     +--+---------------------------------+-------+---------+---------+
        Total:                            10732   340       590    
                                                                   
-    /Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/rf/lib/rf_multiMode_cc13x0.aem3
+    /home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/rf/lib/rf_multiMode_cc13x0.aem3
        RFCC26XX_multiMode.oem3           7798    28        917    
     +--+---------------------------------+-------+---------+---------+
        Total:                            7798    28        917    
+                                                                  
+    /home/phoenix/zztools/code_composer_studio/Monarch_Software/src/sysbios/rom_sysbios.aem3
+       rom_sysbios.obj                   1280    0         0      
+    +--+---------------------------------+-------+---------+---------+
+       Total:                            1280    0         0      
                                                                   
        Stack:                            0       0         1024   
        Linker Generated:                 472     1171      0      
@@ -1871,12 +1871,12 @@ ti_sysbios_family_arm_m3_Hwi_restoreFxn__E  $Tramp$TT$L$PI$$ti_sysbios_family_ar
                              0000947e                       : RingBuf.oem3 (.text:RingBuf_get)
                              000094f0                       : ADCCC26XX.oem3 (.text:ADCCC26XX_close)
                              000095e0                       : PowerCC26XX.oem3 (.text:PowerCC26XX_isStableXOSC_HF)
-                             00009b9a                       : PowerCC26XX.oem3 (.text:Power_releaseConstraint)
-                             00009bce   rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_powerConstraintRelease)
-                             00009c04                            : RFCC26XX_multiMode.oem3 (.text:RF_runDirectImmediateCmd)
-                             00009d98   drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:Power_setConstraint)
-                             00009dcc   rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_queueEnd)
-                             00009e20   drivers_cc13x0.aem3 : WatchdogCC26XX.oem3 (.text:WatchdogCC26XX_setReload)
+                             00009b62                       : PowerCC26XX.oem3 (.text:Power_releaseConstraint)
+                             00009b96   rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_powerConstraintRelease)
+                             00009bcc                            : RFCC26XX_multiMode.oem3 (.text:RF_runDirectImmediateCmd)
+                             00009dc8   drivers_cc13x0.aem3 : PowerCC26XX.oem3 (.text:Power_setConstraint)
+                             00009dfc   rf_multiMode_cc13x0.aem3 : RFCC26XX_multiMode.oem3 (.text:RF_queueEnd)
+                             00009e50   drivers_cc13x0.aem3 : WatchdogCC26XX.oem3 (.text:WatchdogCC26XX_setReload)
                              0000a342                       : List.oem3 (.text:List_remove)
                              0000a482                       : List.oem3 (.text:List_get)
                              0000a4a6                       : List.oem3 (.text:List_insert)
@@ -1953,25 +1953,25 @@ ti_sysbios_knl_Semaphore_Params__init__S  $Tramp$TT$L$PI$$ti_sysbios_knl_Semapho
 xdc_runtime_Memory_alloc__E  $Tramp$TT$L$PI$$xdc_runtime_Memory_alloc__E
    1001c485     0000b38c     00009f9c   hello_pem3.oem3 (.text:ti_sysbios_rts_gnu_MemAlloc_alloc)
 xdc_runtime_Core_createObject__I  $Tramp$TT$L$PI$$xdc_runtime_Core_createObject__I
-   1001c401     0000b394     00009f08   hello_pem3.oem3 (.text:ti_uia_loggers_LoggerStopMode_Object__create__S)
+   1001c401     0000b394     00009f38   hello_pem3.oem3 (.text:ti_uia_loggers_LoggerStopMode_Object__create__S)
 ti_sysbios_knl_Task_startup__E  $Tramp$TT$L$PI$$ti_sysbios_knl_Task_startup__E
-   1001c305     0000b39c     00009ee8   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+   1001c305     0000b39c     00009f18   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
 ti_sysbios_knl_Swi_startup__E  $Tramp$TT$L$PI$$ti_sysbios_knl_Swi_startup__E
-   1001c239     0000b3a4     00009ee4   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+   1001c239     0000b3a4     00009f14   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
 ti_sysbios_hal_Hwi_startup__E  $Tramp$TT$L$PI$$ti_sysbios_hal_Hwi_startup__E
-   1001c289     0000b3ac     00009ee0   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+   1001c289     0000b3ac     00009f10   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
 ti_sysbios_family_arm_cc26xx_Timer_startup__E  $Tramp$TT$L$PI$$ti_sysbios_family_arm_cc26xx_Timer_startup__E
-   1001b791     0000b3b4     00009edc   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+   1001b791     0000b3b4     00009f0c   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
 xdc_runtime_System_atexit__E  $Tramp$TT$L$PI$$xdc_runtime_System_atexit__E
-   1001c67d     0000b3bc     00009ed4   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
+   1001c67d     0000b3bc     00009f04   hello_pem3.oem3 (.text:ti_sysbios_BIOS_startFunc__I)
 ti_sysbios_BIOS_setThreadType__E  $Tramp$TT$L$PI$$ti_sysbios_BIOS_setThreadType__E
-   1001c041     0000b3c4     00009ea0   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
+   1001c041     0000b3c4     00009ed0   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
                              0000aca4   hello_pem3.oem3 (.text:ti_sysbios_BIOS_exitFunc__I)
 ti_sysbios_knl_Task_disable__E  $Tramp$TT$L$PI$$ti_sysbios_knl_Task_disable__E
-   1001c0f1     0000b3cc     00009e9a   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
+   1001c0f1     0000b3cc     00009eca   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
                              0000a596   dpl_cc13x0.aem3 : PowerCC26XX_tirtos.oem3 (.text:PowerCC26XX_schedulerDisable)
 ti_sysbios_knl_Swi_disable__E  $Tramp$TT$L$PI$$ti_sysbios_knl_Swi_disable__E
-   1001c0d1     0000b3d4     00009e96   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
+   1001c0d1     0000b3d4     00009ec6   hello_pem3.oem3 (.text:ti_sysbios_BIOS_atExitFunc__I)
                              0000b298   dpl_cc13x0.aem3 : SwiP_tirtos.oem3 (.text:SwiP_disable)
 ti_sysbios_knl_Task_construct  $Tramp$TT$L$PI$$ti_sysbios_knl_Task_construct
    1001b125     0000b3dc     0000985e   main.obj (.text:createADCTask)
@@ -2001,11 +2001,11 @@ ti_sysbios_heaps_HeapMem_Object__get__S  $Tramp$TT$L$PI$$ti_sysbios_heaps_HeapMe
 xdc_runtime_Gate_leaveSystem__E  $Tramp$TT$L$PI$$xdc_runtime_Gate_leaveSystem__E
    1001c875     0000b42c     00007de6   ti.uia.runtime.aem3 : QueueDescriptor.oem3 (.text:ti_uia_runtime_QueueDescriptor_addToList__E)
                              000090f8   rom_sysbios.aem3 : rom_sysbios.obj (.text:xdc_runtime_SysMin_flush__E)
-                             00009a5c                    : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
+                             00009d36                    : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
 xdc_runtime_Gate_enterSystem__E  $Tramp$TT$L$PI$$xdc_runtime_Gate_enterSystem__E
    1001c881     0000b434     00007d88   ti.uia.runtime.aem3 : QueueDescriptor.oem3 (.text:ti_uia_runtime_QueueDescriptor_addToList__E)
                              000090ca   rom_sysbios.aem3 : rom_sysbios.obj (.text:xdc_runtime_SysMin_flush__E)
-                             00009a3e                    : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
+                             00009d1a                    : rom_sysbios.obj (.text:xdc_runtime_SysMin_putch__E)
 xdc_runtime_Assert_raise__I  $Tramp$TT$L$PI$$xdc_runtime_Assert_raise__I
    1001c5a5     0000b43c     0000735a   ti.uia.loggers.aem3 : LoggerStopMode.oem3 (.text:ti_uia_loggers_LoggerStopMode_initQueueDescriptor__E)
 ti_sysbios_knl_Clock_scheduleNextTick__E  $Tramp$TT$L$PI$$ti_sysbios_knl_Clock_scheduleNextTick__E
@@ -2174,7 +2174,7 @@ address   name
 0000a9d5  NOROM_AONRTCCurrentCompareValueGet                                        
 0000a4f1  NOROM_AUXADCAdjustValueForGainAndOffset                                   
 00006915  NOROM_AUXADCDisable                                                       
-00009aa5  NOROM_AUXADCDisableInputScaling                                           
+00009a6d  NOROM_AUXADCDisableInputScaling                                           
 00005fa5  NOROM_AUXADCEnableSync                                                    
 0000aec5  NOROM_AUXADCFlushFifo                                                     
 0000a7ad  NOROM_AUXADCGetAdjustmentGain                                             
@@ -2185,14 +2185,14 @@ address   name
 0000b05b  NOROM_CPUcpsie                                                            
 0000b229  NOROM_CPUdelay                                                            
 0000a7c9  NOROM_ChipInfo_GetChipFamily                                              
-00009d15  NOROM_ChipInfo_GetChipType                                                
+00009d45  NOROM_ChipInfo_GetChipType                                                
 00009505  NOROM_ChipInfo_GetHwRevision                                              
 0000aa05  NOROM_ChipInfo_GetPackageType                                             
 00009fb1  NOROM_DDI32RegWrite                                                       
 00009fdd  NOROM_OSCClockSourceGet                                                   
 00008539  NOROM_OSCClockSourceSet                                                   
 00008349  NOROM_OSCHF_AttemptToSwitchToXosc                                         
-00009ad9  NOROM_OSCHF_SwitchToRcOscTurnOffXosc                                      
+00009aa1  NOROM_OSCHF_SwitchToRcOscTurnOffXosc                                      
 0000aa1d  NOROM_OSCHF_TurnOnXosc                                                    
 00009541  NOROM_OSC_HPOSCRelativeFrequencyOffsetGet                                 
 0000b067  NOROM_OSC_HPOSCRelativeFrequencyOffsetToRFCoreFormatConvert               
@@ -2224,14 +2224,14 @@ address   name
 0000af05  NOROM_SetupGetTrimForXoscHfFastStart                                      
 0000af15  NOROM_SetupGetTrimForXoscHfIbiastherm                                     
 0000aac5  NOROM_SetupGetTrimForXoscLfRegulatorAndCmirrwrRatio                       
-00009d45  NOROM_SetupSetAonRtcSubSecInc                                             
+00009d75  NOROM_SetupSetAonRtcSubSecInc                                             
 00008b35  NOROM_SetupSetCacheModeAccordingToCcfgSetting                             
 00007c9d  NOROM_SetupSetVddrLevel                                                   
 000063f9  NOROM_SetupTrimDevice                                                     
 000080d9  NOROM_SysCtrlAdjustRechargeAfterPowerDown                                 
 000019d1  NOROM_SysCtrlSetRechargeBeforePowerDown                                   
 00008141  NOROM_SysCtrl_DCDC_VoltageConditionalControl                              
-00009b0d  NOROM_TRNGConfigure                                                       
+00009ad5  NOROM_TRNGConfigure                                                       
 0000ac43  NOROM_ThisLibraryIsFor_CC13x0_HwRev20AndLater_HaltIfViolated              
 0000b025  NOROM_VIMSModeGet                                                         
 000102b3  NVS_count                                                                 
@@ -2244,7 +2244,7 @@ address   name
 00006c1d  PIN_open                                                                  
 0000b073  PIN_registerIntCb                                                         
 000088dd  PIN_remove                                                                
-00009b41  PIN_setConfig                                                             
+00009b09  PIN_setConfig                                                             
 00008edd  PIN_setOutputEnable                                                       
 0000975d  PIN_setOutputValue                                                        
 0000fedc  PROP_RF_txPowerTable                                                      
@@ -2272,9 +2272,9 @@ address   name
 0000aadd  Power_idleFunc                                                            
 00004365  Power_init                                                                
 0000a1e5  Power_registerNotify                                                      
-00009b75  Power_releaseConstraint                                                   
+00009b3d  Power_releaseConstraint                                                   
 00006121  Power_releaseDependency                                                   
-00009d75  Power_setConstraint                                                       
+00009da5  Power_setConstraint                                                       
 00006299  Power_setDependency                                                       
 00001bf9  Power_sleep                                                               
 0000a5d5  Power_unregisterNotify                                                    
@@ -2319,7 +2319,7 @@ address   name
 00004eb9  RF_pendCmd                                                                
 000065e9  RF_postCmd                                                                
 0000b099  RF_powerConstraintGet                                                     
-00009ba9  RF_powerConstraintRelease                                                 
+00009b71  RF_powerConstraintRelease                                                 
 0000a871  RF_powerConstraintSet                                                     
 20004a34  RF_prop                                                                   
 20004a44  RF_prop_fsk                                                               
@@ -2338,7 +2338,7 @@ address   name
 UNDEFED   SHT$$INIT_ARRAY$$Base                                                     
 UNDEFED   SHT$$INIT_ARRAY$$Limit                                                    
 000102b6  SPI_count                                                                 
-00009dd5  SafeHapiAuxAdiSelect                                                      
+00009e05  SafeHapiAuxAdiSelect                                                      
 0000a235  SafeHapiVoid                                                              
 0000a0e5  SemaphoreP_constructBinary                                                
 0000b28d  SemaphoreP_destruct                                                       
@@ -2385,7 +2385,7 @@ UNDEFED   SHT$$INIT_ARRAY$$Limit
 00010188  WatchdogCC26XX_fxnTable                                                   
 0000b1dd  WatchdogCC26XX_init                                                       
 00006a4d  WatchdogCC26XX_open                                                       
-00009e05  WatchdogCC26XX_setReload                                                  
+00009e35  WatchdogCC26XX_setReload                                                  
 0000af75  Watchdog_Params_init                                                      
 0000b19d  Watchdog_clear                                                            
 0000b1a7  Watchdog_close                                                            
@@ -2398,11 +2398,11 @@ UNDEFED   SHT$$INIT_ARRAY$$Limit
 0000b1bb  Watchdog_setReload                                                        
 00000000  __ASM__                                                                   
 200022ec  __CIOBUF_                                                                 
-00000074  __ISA__                                                                   
-00000086  __PLAT__                                                                  
+00000071  __ISA__                                                                   
+00000083  __PLAT__                                                                  
 20005000  __STACK_END                                                               
 00000400  __STACK_SIZE                                                              
-000000ad  __TARG__                                                                  
+000000aa  __TARG__                                                                  
 00010770  __TI_CINIT_Base                                                           
 000107d0  __TI_CINIT_Limit                                                          
 0001072c  __TI_Handler_Table_Base                                                   
@@ -2413,11 +2413,11 @@ UNDEFED   SHT$$INIT_ARRAY$$Limit
 ffffffff  __TI_pprof_out_hndl                                                       
 ffffffff  __TI_prof_data_size                                                       
 ffffffff  __TI_prof_data_start                                                      
-00009c11  __TI_readmsg                                                              
+00009bd9  __TI_readmsg                                                              
 00010338  __TI_static_base__                                                        
 00009805  __TI_writemsg                                                             
 0000b0d5  __TI_zero_init                                                            
-000000d2  __TRDR__                                                                  
+000000cf  __TRDR__                                                                  
 0000b2a9  __abort_execution                                                         
 0000ad1f  __aeabi_idiv0                                                             
 0000ad1f  __aeabi_ldiv0                                                             
@@ -2518,7 +2518,7 @@ ffffffff  binit
 20002d94  i2cTransaction                                                            
 000037dd  initAccel                                                                 
 00002c31  initGyro                                                                  
-00009e35  initI2C                                                                   
+00009e65  initI2C                                                                   
 0000424d  initMag                                                                   
 20003f30  input                                                                     
 000061dd  lbtDoneCb                                                                 
@@ -2551,7 +2551,7 @@ ffffffff  binit
 00009955  pinSetup                                                                  
 200048a0  pinTable                                                                  
 20004130  pinUpperBound                                                             
-00009c79  rand                                                                      
+00009c41  rand                                                                      
 20002f20  raw_humidity                                                              
 20002f22  raw_temp                                                                  
 00007045  readAccel                                                                 
@@ -2574,7 +2574,7 @@ ffffffff  binit
 1001c249  ti_sysbios_BIOS_RtsGateProxy_leave__E                                     
 1001c271  ti_sysbios_BIOS_RtsGateProxy_query__E                                     
 1001c271  ti_sysbios_BIOS_RtsGateProxy_query__E__mangled__                          
-00009e95  ti_sysbios_BIOS_atExitFunc__I                                             
+00009ec5  ti_sysbios_BIOS_atExitFunc__I                                             
 0000ac9b  ti_sysbios_BIOS_exitFunc__I                                               
 1001c031  ti_sysbios_BIOS_exit__E                                                   
 1001bff5  ti_sysbios_BIOS_getCpuFreq__E                                             
@@ -2585,7 +2585,7 @@ ffffffff  binit
 0000a675  ti_sysbios_BIOS_rtsLock__I                                                
 0000ab9d  ti_sysbios_BIOS_rtsUnlock__I                                              
 1001c041  ti_sysbios_BIOS_setThreadType__E                                          
-00009ec5  ti_sysbios_BIOS_startFunc__I                                              
+00009ef5  ti_sysbios_BIOS_startFunc__I                                              
 1001c051  ti_sysbios_BIOS_start__E                                                  
 000063f9  ti_sysbios_family_arm_cc26xx_Boot_trimDevice                              
 00001406  ti_sysbios_family_arm_cc26xx_Timer_Module__id__C                          
@@ -2601,10 +2601,10 @@ ffffffff  binit
 1001c24d  ti_sysbios_family_arm_cc26xx_Timer_getExpiredTicks__E                     
 0000a421  ti_sysbios_family_arm_cc26xx_Timer_getMaxTicks__E                         
 1001c251  ti_sysbios_family_arm_cc26xx_Timer_getPeriod__E                           
-00009cad  ti_sysbios_family_arm_cc26xx_Timer_initDevice__I                          
+00009c75  ti_sysbios_family_arm_cc26xx_Timer_initDevice__I                          
 1001a465  ti_sysbios_family_arm_cc26xx_Timer_periodicStub__E                        
 1001b765  ti_sysbios_family_arm_cc26xx_Timer_postInit__I                            
-00009a6d  ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E                         
+00009a35  ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E                         
 1001c255  ti_sysbios_family_arm_cc26xx_Timer_setPeriod__E                           
 000093cd  ti_sysbios_family_arm_cc26xx_Timer_setThreshold__I                        
 0000728d  ti_sysbios_family_arm_cc26xx_Timer_start__E                               
@@ -3029,7 +3029,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 0001014c  ti_uia_loggers_LoggerStopMode_Object__DESC__C                             
 000100d8  ti_uia_loggers_LoggerStopMode_Object__PARAMS__C                           
 00010314  ti_uia_loggers_LoggerStopMode_Object__count__C                            
-00009ef5  ti_uia_loggers_LoggerStopMode_Object__create__S                           
+00009f25  ti_uia_loggers_LoggerStopMode_Object__create__S                           
 0000a6d5  ti_uia_loggers_LoggerStopMode_Object__delete__S                           
 0000aff5  ti_uia_loggers_LoggerStopMode_Object__get__S                              
 20004358  ti_uia_loggers_LoggerStopMode_Object__table__V                            
@@ -3046,7 +3046,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 0000731d  ti_uia_loggers_LoggerStopMode_initQueueDescriptor__E                      
 0000b005  ti_uia_loggers_LoggerStopMode_isEmpty__E                                  
 00010232  ti_uia_loggers_LoggerStopMode_isTimestampEnabled__C                       
-00009ce1  ti_uia_loggers_LoggerStopMode_reset__E                                    
+00009ca9  ti_uia_loggers_LoggerStopMode_reset__E                                    
 0000b2db  ti_uia_loggers_LoggerStopMode_setFilterLevel__E                           
 0000b2dd  ti_uia_loggers_LoggerStopMode_setPriority__E                              
 00005955  ti_uia_loggers_LoggerStopMode_write0__E                                   
@@ -3159,14 +3159,14 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 20001ca4  xdc_runtime_SysMin_Module_State_0_outbuf__A                               
 20004aac  xdc_runtime_SysMin_Module__state__V                                       
 0000a6f5  xdc_runtime_SysMin_Module_startup__E                                      
-00009f25  xdc_runtime_SysMin_abort__E                                               
+00009cdd  xdc_runtime_SysMin_abort__E                                               
 00010328  xdc_runtime_SysMin_bufSize__C                                             
 0000a96d  xdc_runtime_SysMin_exit__E                                                
 00010330  xdc_runtime_SysMin_flushAtExit__C                                         
 000090c9  xdc_runtime_SysMin_flush__E                                               
 0001032c  xdc_runtime_SysMin_outputFunc__C                                          
 0000a513  xdc_runtime_SysMin_output__I                                              
-00009a35  xdc_runtime_SysMin_putch__E                                               
+00009d11  xdc_runtime_SysMin_putch__E                                               
 1001bbe5  xdc_runtime_System_Module_GateProxy_Handle__label__S                      
 1001bbe5  xdc_runtime_System_Module_GateProxy_Handle__label__S__mangled__           
 1001bc05  xdc_runtime_System_Module_GateProxy_Object__delete__S                     
@@ -3177,10 +3177,10 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 20004b20  xdc_runtime_System_Module_State_0_atexitHandlers__A                       
 200001f8  xdc_runtime_System_Module__state__V                                       
 1001c87b  xdc_runtime_System_Module_startup__E                                      
-00009f25  xdc_runtime_System_SupportProxy_abort__E                                  
+00009cdd  xdc_runtime_System_SupportProxy_abort__E                                  
 0000a96d  xdc_runtime_System_SupportProxy_exit__E                                   
 000090c9  xdc_runtime_System_SupportProxy_flush__E                                  
-00009a35  xdc_runtime_System_SupportProxy_putch__E                                  
+00009d11  xdc_runtime_System_SupportProxy_putch__E                                  
 0000146c  xdc_runtime_System_abortFxn__C                                            
 1001c895  xdc_runtime_System_abortSpin__E                                           
 0000b2ad  xdc_runtime_System_abortStd__E                                            
@@ -3227,10 +3227,10 @@ address   name
 00000001  xdc_runtime_Startup__EXECFXN__C                                           
 00000001  xdc_runtime_Startup__RESETFXN__C                                          
 0000003d  EasyLink_init                                                             
-00000074  __ISA__                                                                   
-00000086  __PLAT__                                                                  
-000000ad  __TARG__                                                                  
-000000d2  __TRDR__                                                                  
+00000071  __ISA__                                                                   
+00000083  __PLAT__                                                                  
+000000aa  __TARG__                                                                  
+000000cf  __TRDR__                                                                  
 00000400  __STACK_SIZE                                                              
 00000931  txDataTaskFunc                                                            
 00000c7d  PowerCC26XX_auxISR                                                        
@@ -3520,30 +3520,30 @@ address   name
 0000991d  createi2cTask                                                             
 00009955  pinSetup                                                                  
 000099c5  ti_sysbios_family_arm_cc26xx_Timer_getCurrentTick__E                      
-00009a35  xdc_runtime_SysMin_putch__E                                               
-00009a35  xdc_runtime_System_SupportProxy_putch__E                                  
-00009a6d  ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E                         
-00009aa5  NOROM_AUXADCDisableInputScaling                                           
-00009ad9  NOROM_OSCHF_SwitchToRcOscTurnOffXosc                                      
-00009b0d  NOROM_TRNGConfigure                                                       
-00009b41  PIN_setConfig                                                             
-00009b75  Power_releaseConstraint                                                   
-00009ba9  RF_powerConstraintRelease                                                 
-00009c11  __TI_readmsg                                                              
-00009c79  rand                                                                      
-00009cad  ti_sysbios_family_arm_cc26xx_Timer_initDevice__I                          
-00009ce1  ti_uia_loggers_LoggerStopMode_reset__E                                    
-00009d15  NOROM_ChipInfo_GetChipType                                                
-00009d45  NOROM_SetupSetAonRtcSubSecInc                                             
-00009d75  Power_setConstraint                                                       
-00009dd5  SafeHapiAuxAdiSelect                                                      
-00009e05  WatchdogCC26XX_setReload                                                  
-00009e35  initI2C                                                                   
-00009e95  ti_sysbios_BIOS_atExitFunc__I                                             
-00009ec5  ti_sysbios_BIOS_startFunc__I                                              
-00009ef5  ti_uia_loggers_LoggerStopMode_Object__create__S                           
-00009f25  xdc_runtime_SysMin_abort__E                                               
-00009f25  xdc_runtime_System_SupportProxy_abort__E                                  
+00009a35  ti_sysbios_family_arm_cc26xx_Timer_setNextTick__E                         
+00009a6d  NOROM_AUXADCDisableInputScaling                                           
+00009aa1  NOROM_OSCHF_SwitchToRcOscTurnOffXosc                                      
+00009ad5  NOROM_TRNGConfigure                                                       
+00009b09  PIN_setConfig                                                             
+00009b3d  Power_releaseConstraint                                                   
+00009b71  RF_powerConstraintRelease                                                 
+00009bd9  __TI_readmsg                                                              
+00009c41  rand                                                                      
+00009c75  ti_sysbios_family_arm_cc26xx_Timer_initDevice__I                          
+00009ca9  ti_uia_loggers_LoggerStopMode_reset__E                                    
+00009cdd  xdc_runtime_SysMin_abort__E                                               
+00009cdd  xdc_runtime_System_SupportProxy_abort__E                                  
+00009d11  xdc_runtime_SysMin_putch__E                                               
+00009d11  xdc_runtime_System_SupportProxy_putch__E                                  
+00009d45  NOROM_ChipInfo_GetChipType                                                
+00009d75  NOROM_SetupSetAonRtcSubSecInc                                             
+00009da5  Power_setConstraint                                                       
+00009e05  SafeHapiAuxAdiSelect                                                      
+00009e35  WatchdogCC26XX_setReload                                                  
+00009e65  initI2C                                                                   
+00009ec5  ti_sysbios_BIOS_atExitFunc__I                                             
+00009ef5  ti_sysbios_BIOS_startFunc__I                                              
+00009f25  ti_uia_loggers_LoggerStopMode_Object__create__S                           
 00009f55  NOROM_RFCOverrideSearch                                                   
 00009f83  malloc                                                                    
 00009fb1  NOROM_DDI32RegWrite                                                       
