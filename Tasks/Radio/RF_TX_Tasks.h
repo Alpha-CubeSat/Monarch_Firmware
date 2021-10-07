@@ -26,11 +26,11 @@ static uint8_t txDataTaskStack[700];
  * Set to 1 if you want to attempt to retransmit a packet that couldn't be
  * transmitted after the CCA
  */
-#define RFEASYLINKLBT_RETRANSMIT_PACKETS    1
+//#define RFEASYLINKLBT_RETRANSMIT_PACKETS    1
 
-#if RFEASYLINKLBT_RETRANSMIT_PACKETS
-bool bAttemptRetransmission = false;
-#endif // RFEASYLINKLBT_RETRANSMIT_PACKETS
+//#if RFEASYLINKLBT_RETRANSMIT_PACKETS
+//bool bAttemptRetransmission = false;
+//#endif // RFEASYLINKLBT_RETRANSMIT_PACKETS
 
 uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 		0x59, 0x53, 0x54, 0x45, 0x4d, 0x53, 0x20, 0x44, 0x45, 0x53,
@@ -76,15 +76,14 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
     HardLink_init();
 
-    HardLink_setRfPower(14);
+    //HardLink_setRfPower(14);
 
-    EasyLink_setFrequency(915000000);
+    HardLink_setFrequency(915000000);
 
 	while(1) {
 
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
 
-		uint32_t absTime;
 		Power_setDependency(PowerCC26XX_PERIPH_TRNG);
 
 		//EasyLink_Params easyLink_params;
@@ -105,9 +104,9 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 		struct HardLink_packet txPacket;
 
-		if(bAttemptRetransmission == false){
+		//if(bAttemptRetransmission == false){
 
-			EasyLink_abort();
+			//EasyLink_abort();
 
 			txPacket.payload[0] = 0x1e;
 
@@ -116,13 +115,13 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			txPacket.payload[3] = upperPart(ay);
 			txPacket.payload[4] = lowerPart(ay);
 			txPacket.payload[5] = upperPart(az);
-			txPacket.payload[6] = lowerPart(az);
+			/*txPacket.payload[6] = lowerPart(az);
 
 			txPacket.payload[7] = upperPart(gx);
 			txPacket.payload[8] = lowerPart(gx);
 			txPacket.payload[9] = upperPart(gy);
 			txPacket.payload[10] = lowerPart(gy);
-			/*txPacket.payload[11] = upperPart(gz);
+			txPacket.payload[11] = upperPart(gz);
 			txPacket.payload[12] = lowerPart(gz);
 
 			txPacket.payload[13] = upperPart(mx);
@@ -152,7 +151,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			  txPacket.payload[i+29] = input[i];
 			}*/
 
-			int packetlen = 10;//RFEASYLINKTXPAYLOAD_LENGTH + bytes_read;
+			int packetlen = 5;//RFEASYLINKTXPAYLOAD_LENGTH + bytes_read;
 			txPacket.size = packetlen;
 			//txPacket.dstAddr[0] = 0x00;
 //				txPacket.absTime = 0;
@@ -162,8 +161,9 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 				// Problem getting absolute time
 			}
 			txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(0);*/
-		}
-
+		//}
+		PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
+		PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
 		HardLink_send(&txPacket);
 
 		Task_sleep(10000);

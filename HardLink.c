@@ -98,7 +98,7 @@ int HardLink_init(){
                        RF_cmdTx[i].commandNo = 0x3801;
                        RF_cmdTx[i].status = 0x0000;
                        RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-                       RF_cmdTx[i].startTime = RF_convertMsToRatTicks(8);
+                       RF_cmdTx[i].startTime = RF_convertMsToRatTicks(10);
                        RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
                        RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
                        RF_cmdTx[i].startTrigger.triggerNo = 0x0;
