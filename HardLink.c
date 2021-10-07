@@ -1,12 +1,10 @@
-#include "HardLink.h"
-#include "RFQueue.h"
 #include <ti/drivers/rf/RF.h>
 #include <stdio.h>
-#include "smartrf_settings/smartrf_settings.h"
+#include "HardLink.h"
+#include "RFQueue.h"
+#include "Board.h"
 
 #include DeviceFamily_constructPath(driverlib/rf_prop_mailbox.h)
-
-#include "Board.h"
 
 #define RF_convertUsToRatTicks(microseconds) \
     ((uint32_t)(microseconds) * 4)
@@ -23,7 +21,7 @@
 #define DATA_ENTRY_HEADER_SIZE 8  // Constant header size of a generic data entry
 #define MAX_LENGTH             30 // Max length byte the radio will accept
 #define NUM_DATA_ENTRIES       2  // only two ????
-#define NUM_APPENDED_BYTES     2  // ???
+#define NUM_APPENDED_BYTES     2  // 1 byte header + 1 byte status
 
 // RF related
 #define HARDLINK_RF_EVENT_MASK  ( RF_EventLastCmdDone | \
@@ -36,8 +34,14 @@ static RF_Params rfParams;
 
 /* Receive dataQueue for RF core to fill in data */
 static dataQueue_t dataQueue;
-static rfc_dataEntry;
-static uint8_t rxDataEntryBuffer();
+static rfc_dataEntryGeneral_t* currentDataEntry;
+static uint8_t packetLength;
+static uint8_t* packetDataPointer;
+static uint8_t packet[MAX_LENGTH + NUM_APPENDED_BYTES - 1];
+static uint8_t
+rxDataEntryBuffer[RF_QUEUE_DATA_ENTRY_BUFFER_SIZE(NUM_DATA_ENTRIES,
+                                                  MAX_LENGTH,
+                                                  NUM_APPENDED_BYTES)];
 
 //Indicating that the API is initialized
 static uint8_t configured = 1;
@@ -74,30 +78,7 @@ unsigned char prs_1[64] = {
   0b11001011, 0b00101110, 0b01100011, 0b10111111, 0b01010100, 0b11000100, 0b11010100, 0b01010100
 };
 
-const RF_TxPowerTable_Entry PROP_RF_txPowerTable[] =
-{
-    {-10, RF_TxPowerTable_DEFAULT_PA_ENTRY(0, 3, 0, 4) },
-    {0, RF_TxPowerTable_DEFAULT_PA_ENTRY(1, 1, 0, 0) },
-    {1, RF_TxPowerTable_DEFAULT_PA_ENTRY(3, 3, 0, 8) },
-    {2, RF_TxPowerTable_DEFAULT_PA_ENTRY(2, 1, 0, 8) },
-    {3, RF_TxPowerTable_DEFAULT_PA_ENTRY(4, 3, 0, 10) },
-    {4, RF_TxPowerTable_DEFAULT_PA_ENTRY(5, 3, 0, 12) },
-    {5, RF_TxPowerTable_DEFAULT_PA_ENTRY(6, 3, 0, 12) },
-    {6, RF_TxPowerTable_DEFAULT_PA_ENTRY(7, 3, 0, 14) },
-    {7, RF_TxPowerTable_DEFAULT_PA_ENTRY(9, 3, 0, 16) },
-    {8, RF_TxPowerTable_DEFAULT_PA_ENTRY(11, 3, 0, 18) },
-    {9, RF_TxPowerTable_DEFAULT_PA_ENTRY(13, 3, 0, 22) },
-    {10, RF_TxPowerTable_DEFAULT_PA_ENTRY(19, 3, 0, 28) },
-    {11, RF_TxPowerTable_DEFAULT_PA_ENTRY(26, 3, 0, 40) },
-    {12, RF_TxPowerTable_DEFAULT_PA_ENTRY(24, 0, 0, 92) },
-    {13, RF_TxPowerTable_DEFAULT_PA_ENTRY(63, 0, 0, 83) }, // The original PA value (12.5 dBm) have been rounded to an integer value.
-    {14, RF_TxPowerTable_DEFAULT_PA_ENTRY(63, 0, 1, 83) }, // This setting requires CCFG_FORCE_VDDR_HH = 1.
-    RF_TxPowerTable_TERMINATION_ENTRY
-};
-
-const uint8_t PROP_RF_txPowerTableSize = sizeof(PROP_RF_txPowerTable)/sizeof(RF_TxPowerTable_Entry);
-
-rfc_CMD_PROP_TX_t RF_cmdTx[100];
+rfc_CMD_PROP_TX_t RF_cmdTx[8*MAX_SEGMENT_SIZE];
 
 int HardLink_init(){
     uint16_t i;
@@ -113,7 +94,7 @@ int HardLink_init(){
     rfHandle = RF_open(&rfObject, &RF_prop,
                 &RF_cmdPropRadioDivSetup, &rfParams);
 
-    for(i=0;i<100;i++){
+    for(i=0;i<8*MAX_SEGMENT_SIZE;i++){
                        RF_cmdTx[i].commandNo = 0x3801;
                        RF_cmdTx[i].status = 0x0000;
                        RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
@@ -135,8 +116,8 @@ int HardLink_init(){
     /* RX initial part*/
     // initialize data queue including the first data entry
     if(RFQueue_defineQueue(&dataQueue, 
-                           rfDataEntryBuffer,
-                           sizeof(rfDataEntryBuffer),
+                           rxDataEntryBuffer,
+                           sizeof(rxDataEntryBuffer),
                            NUM_DATA_ENTRIES, 
                            MAX_LENGTH + NUM_APPENDED_BYTES))
     {
@@ -146,16 +127,16 @@ int HardLink_init(){
 
     /* Modify CMD_PROP_RX command for applications needs */
     // Set the data entry queue for received data
-    RF_cmdPropTx.pQueue = &dataQueue;
+    RF_cmdPropRx.pQueue = &dataQueue;
     // Discard ignored packets from Rx queue
-    RF_cmdPropTx.rxConf.bAutoFlushIgnored = 1;
+    RF_cmdPropRx.rxConf.bAutoFlushIgnored = 1;
     // Discard packets with CRC error from RX queue
-    RF_cmdPropTx.rxConf.bAutoFlushCrcErr = 1;
+    RF_cmdPropRx.rxConf.bAutoFlushCrcErr = 1;
     // Implement packet length filtering to avoid 
-    RF_cmdPropTx.maxPktLen = MAX_LENGTH;
+    RF_cmdPropRx.maxPktLen = MAX_LENGTH;
     // go back to sync research 
-    RF_cmdPropTx.pktConf.bRepeatOk = 1;
-    RF_cmdPropTx.pktConf.bRepeatNok = 1;
+    RF_cmdPropRx.pktConf.bRepeatOk = 1;
+    RF_cmdPropRx.pktConf.bRepeatNok = 1;
 
     return 0;
 }
@@ -188,7 +169,6 @@ int HardLink_receive()
                                                RF_PriorityNormal, &callback,
                                                RF_EventRxEntryDone);
     while(1);
-    return 0;
 }
 
 int HardLink_sendAsync(HardLink_packet_t packet){
@@ -222,7 +202,11 @@ int HardLink_sendAsync(HardLink_packet_t packet){
 int HardLink_send(HardLink_packet_t packet){
     //malloc has a risk of memory leaking
 
-    if(!packet || !packet->payload){
+    if(!packet){
+        return -1;
+    }
+
+    if(packet->size > MAX_SEGMENT_SIZE){
         return -1;
     }
 

@@ -39,9 +39,9 @@ uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 
 int done = 1;
 
-void lbtDoneCb(HardLink_Status status)
+void lbtDoneCb(HardLink_status status)
 {
-    if (status == EasyLink_Status_Success)
+    if (status == HardLink_status_Success)
     {
         /* Toggle LED1 to indicate TX */
         PIN_setOutputValue(pinHandle, Board_PIN_LED1, !PIN_getOutputValue(Board_PIN_LED1));
@@ -50,7 +50,7 @@ void lbtDoneCb(HardLink_Status status)
         done = 0;
 #endif // RFEASYLINKLBT_RETRANSMIT_PACKETS
     }
-    else if (status == EasyLink_Status_Busy_Error)
+    else if (status == HardLink_status_Busy_Error)
     {
         /* Toggle LED2 to indicate maximum retries reached */
         PIN_setOutputValue(pinHandle, Board_PIN_LED2, !PIN_getOutputValue(Board_PIN_LED2));
@@ -95,7 +95,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 	//	easyLink_params.pGrnFxn = (EasyLink_GetRandomNumber)HalTRNG_GetTRNG;
 
 		/* Initialize EasyLink */
-		/*if(EasyLink_init(&easyLink_params) != EasyLink_Status_Success)
+		/*if(EasyLink_init(&easyLink_params) != HardLink_status_Success)
 		{
 			System_abort("EasyLink_init failed");
 		}*/
@@ -103,7 +103,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 		//EasyLink_enableRxAddrFilter((uint8_t*)&AddressList, 1, 2);
 
-		HardLink_packet txPacket =  {NULL,0};
+		struct HardLink_packet txPacket;
 
 		if(bAttemptRetransmission == false){
 
@@ -157,7 +157,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			//txPacket.dstAddr[0] = 0x00;
 //				txPacket.absTime = 0;
 			/* Set Tx absolute time to current time + 100ms */
-			/*if(EasyLink_getAbsTime(&absTime) != EasyLink_Status_Success)
+			/*if(EasyLink_getAbsTime(&absTime) != HardLink_status_Success)
 			{
 				// Problem getting absolute time
 			}

@@ -4,12 +4,16 @@
 #include <stdint.h>
 #include <ti/drivers/rf/RF.h>
 #include "smartrf_settings/smartrf_settings.h"
+#include "smartrf_settings/smartrf_settings_predefined.h"
 #include <stdlib.h>
 
 #include DeviceFamily_constructPath(rf_patches/rf_patch_cpe_sl_longrange.h)
 #include DeviceFamily_constructPath(rf_patches/rf_patch_rfe_sl_longrange.h)
 #include DeviceFamily_constructPath(rf_patches/rf_patch_mce_sl_longrange.h)
 //! \brief HardLink Status and error codes
+
+#define MAX_SEGMENT_SIZE 15
+
 typedef enum
 {
     HardLink_status_Success         = 0, //!< Success
@@ -26,7 +30,7 @@ typedef enum
 } HardLink_status;
 
 typedef struct HardLink_packet{
-    uint8_t *payload;
+    uint8_t payload[MAX_SEGMENT_SIZE];
     size_t size;
 }* HardLink_packet_t;
 
@@ -35,7 +39,7 @@ typedef void (* HardLink_tx_cb)(HardLink_status);
 extern int HardLink_init();
 extern int HardLink_receive();
 extern int HardLink_send(HardLink_packet_t packet);
-extern int HardLink_sendAsync(HardLink_packet_t packet,HardLink_tx_cb cb);
+//extern int HardLink_sendAsync(HardLink_packet_t packet,HardLink_tx_cb cb);
 extern uint32_t HardLink_getFrequency(void);
 extern HardLink_status HardLink_setFrequency(uint32_t ui32Frequency);
 extern HardLink_status HardLink_getRfPower(int8_t *pi8TxPowerdBm);

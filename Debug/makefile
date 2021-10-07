@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS
+CG_TOOL_ROOT := /home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS
 
 GEN_OPTS__FLAG := --cmd_file="configPkg/compiler.opt"
 GEN_CMDS__FLAG := -l"configPkg/linker.cmd"
@@ -14,7 +14,6 @@ ORDERED_OBJS += \
 "./RFQueue.obj" \
 "./ccfg.obj" \
 "./main.obj" \
-"./easylink/EasyLink.obj" \
 "./smartrf_settings/smartrf_settings.obj" \
 "./smartrf_settings/smartrf_settings_predefined.obj" \
 "../CC1310_LAUNCHXL_TIRTOS.cmd" \
@@ -36,10 +35,8 @@ RMDIR := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
--include easylink/subdir_vars.mk
 -include smartrf_settings/subdir_vars.mk
 -include subdir_rules.mk
--include easylink/subdir_rules.mk
 -include smartrf_settings/subdir_rules.mk
 -include objects.mk
 
@@ -157,22 +154,22 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 Monarch_Software.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Monarch_Software.map" -i"/home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/source" -i"/home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages" -i"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Monarch_Software_linkInfo.xml" --rom_model -o "Monarch_Software.out" $(ORDERED_OBJS)
+	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Monarch_Software.map" -i"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source" -i"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Monarch_Software_linkInfo.xml" --rom_model -o "Monarch_Software.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 Monarch_Software.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armhex"  -o "Monarch_Software.hex" $(EXE_OUTPUTS__QUOTED)
+	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armhex"  -o "Monarch_Software.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "CC1310_LAUNCHXL.obj" "CC1310_LAUNCHXL_fxns.obj" "HardLink.obj" "RFQueue.obj" "ccfg.obj" "main.obj" "easylink/EasyLink.obj" "smartrf_settings/smartrf_settings.obj" "smartrf_settings/smartrf_settings_predefined.obj" 
-	-$(RM) "CC1310_LAUNCHXL.d" "CC1310_LAUNCHXL_fxns.d" "HardLink.d" "RFQueue.d" "ccfg.d" "main.d" "easylink/EasyLink.d" "smartrf_settings/smartrf_settings.d" "smartrf_settings/smartrf_settings_predefined.d" 
+	-$(RM) "CC1310_LAUNCHXL.obj" "CC1310_LAUNCHXL_fxns.obj" "HardLink.obj" "RFQueue.obj" "ccfg.obj" "main.obj" "smartrf_settings/smartrf_settings.obj" "smartrf_settings/smartrf_settings_predefined.obj" 
+	-$(RM) "CC1310_LAUNCHXL.d" "CC1310_LAUNCHXL_fxns.d" "HardLink.d" "RFQueue.d" "ccfg.d" "main.d" "smartrf_settings/smartrf_settings.d" "smartrf_settings/smartrf_settings_predefined.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '
