@@ -6,7 +6,7 @@
 %.obj: ../%.c $(GEN_OPTS) | $(GEN_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: ARM Compiler'
-	"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --include_path="/Users/hunteradams/Documents/MSP430/workspace/Monarch_Software" --include_path="/Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/posix/ccs" --include_path="/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include" --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="$(basename $(<F)).d_raw" $(GEN_OPTS__FLAG) "$<"
+	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me --include_path="/home/wpc/projects/CCS_workspace/Monarch_Software" --include_path="/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/posix/ccs" --include_path="/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include" --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --preproc_with_compile --preproc_dependency="$(basename $(<F)).d_raw" $(GEN_OPTS__FLAG) "$(shell echo $<)"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
@@ -16,7 +16,7 @@ build-340650415:
 build-340650415-inproc: ../hello.cfg
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: XDCtools'
-	"/Applications/ti/xdctools_3_50_02_20_core/xs" --xdcpath="/Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source;/Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages;" xdc.tools.configuro -o configPkg -t ti.targets.arm.elf.M3 -p ti.platforms.simplelink:CC1310F128 -r release -c "/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS" --compileOptions "-mv7M3 --code_state=16 --float_support=vfplib -me --include_path=\"/Users/hunteradams/Documents/MSP430/workspace/Monarch_Software\" --include_path=\"/Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/source/ti/posix/ccs\" --include_path=\"/Applications/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include\" --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on  -std=c99 " "$<"
+	"/home/wpc/UserSoftware/CCS/xdctools_3_50_08_24_core/xs" --xdcpath="/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source;/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages;" xdc.tools.configuro -o configPkg -t ti.targets.arm.elf.M3 -p ti.platforms.simplelink:CC1310F128 -r release -c "/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS" --compileOptions "-mv7M3 --code_state=16 --float_support=vfplib -me --include_path=\"/home/wpc/projects/CCS_workspace/Monarch_Software\" --include_path=\"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/posix/ccs\" --include_path=\"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include\" --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on  -std=c99 " "$<"
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
