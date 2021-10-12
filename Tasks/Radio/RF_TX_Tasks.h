@@ -115,7 +115,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			txPacket.payload[3] = upperPart(ay);
 			txPacket.payload[4] = lowerPart(ay);
 			txPacket.payload[5] = upperPart(az);
-			/*txPacket.payload[6] = lowerPart(az);
+			txPacket.payload[6] = lowerPart(az);
 
 			txPacket.payload[7] = upperPart(gx);
 			txPacket.payload[8] = lowerPart(gx);
@@ -141,17 +141,17 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			txPacket.payload[24] = lowerPart(tx_light_top);
 			txPacket.payload[25] = upperPart(tx_light_bottom);
 			txPacket.payload[26] = lowerPart(tx_light_bottom);
-
+			//remove this
 			txPacket.payload[27] = upperPart(capacitor_charge);
 			txPacket.payload[28] = lowerPart(capacitor_charge);
 
-			int i=0;
+			uint16_t i=0;
 			for (i = 0; i < bytes_read; i++)
 			{
-			  txPacket.payload[i+29] = input[i];
-			}*/
+			  //txPacket.payload[i+29] = input[i];
+			}
 
-			int packetlen = 5;//RFEASYLINKTXPAYLOAD_LENGTH + bytes_read;
+			uint16_t packetlen = RFEASYLINKTXPAYLOAD_LENGTH;// + bytes_read;
 			txPacket.size = packetlen;
 			//txPacket.dstAddr[0] = 0x00;
 //				txPacket.absTime = 0;
@@ -166,7 +166,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 		PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
 		HardLink_send(&txPacket);
 
-		Task_sleep(10000);
+		Task_sleep(1000);
 		PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
 		PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
 
@@ -177,8 +177,8 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 		// Sleep for 20 min
 //		Task_sleep(30000000);
-		Task_sleep(120000000);
-//		Task_sleep(1000000);
+//		Task_sleep(120000000);
+		Task_sleep(40000);
 		Semaphore_post(startSemaphoreHandle);
 
 //		SysCtrlSystemReset();

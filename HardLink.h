@@ -12,7 +12,7 @@
 #include DeviceFamily_constructPath(rf_patches/rf_patch_mce_sl_longrange.h)
 //! \brief HardLink Status and error codes
 
-#define MAX_SEGMENT_SIZE 5
+#define MAX_SEGMENT_SIZE 64
 
 typedef enum
 {

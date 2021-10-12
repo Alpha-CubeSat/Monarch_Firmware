@@ -3,6 +3,7 @@
 #include "HardLink.h"
 #include "RFQueue.h"
 #include "Board.h"
+#include <ti/sysbios/knl/Semaphore.h>
 
 #include DeviceFamily_constructPath(driverlib/rf_prop_mailbox.h)
 
@@ -78,7 +79,10 @@ unsigned char prs_1[64] = {
   0b11001011, 0b00101110, 0b01100011, 0b10111111, 0b01010100, 0b11000100, 0b11010100, 0b01010100
 };
 
-rfc_CMD_PROP_TX_t RF_cmdTx[8*MAX_SEGMENT_SIZE];
+rfc_CMD_PROP_TX_t RF_cmdTx[8];
+uint8_t packet_data[MAX_SEGMENT_SIZE];
+size_t packet_length;
+size_t packet_current;
 
 int HardLink_init(){
     uint16_t i;
@@ -93,25 +97,6 @@ int HardLink_init(){
 
     rfHandle = RF_open(&rfObject, &RF_prop,
                 &RF_cmdPropRadioDivSetup, &rfParams);
-
-    for(i=0;i<8*MAX_SEGMENT_SIZE;i++){
-                       RF_cmdTx[i].commandNo = 0x3801;
-                       RF_cmdTx[i].status = 0x0000;
-                       RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-                       RF_cmdTx[i].startTime = RF_convertMsToRatTicks(10);
-                       RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
-                       RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
-                       RF_cmdTx[i].startTrigger.triggerNo = 0x0;
-                       RF_cmdTx[i].startTrigger.pastTrig = 0x0;
-                       RF_cmdTx[i].condition.rule = 0x0;
-                       RF_cmdTx[i].condition.nSkip = 0x0;
-                       RF_cmdTx[i].pktConf.bFsOff = 0x0;
-                       RF_cmdTx[i].pktConf.bUseCrc = 0x1;
-                       RF_cmdTx[i].pktConf.bVarLen = 0x1;
-                       RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
-                       RF_cmdTx[i].syncWord = 0x930B51DE;
-                       RF_cmdTx[i].pPkt = 0;
-    }
 
     /* RX initial part*/
     // initialize data queue including the first data entry
@@ -163,6 +148,10 @@ void callback(RF_Handle h, RF_CmdHandle ch, RF_EventMask e)
     return;
 }
 
+void HardLink_sendSync_cb(RF_Handle h, RF_CmdHandle ch, RF_EventMask e){
+
+}
+
 int HardLink_receive()
 {
     RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdPropTx,
@@ -192,11 +181,50 @@ int HardLink_sendAsync(HardLink_packet_t packet){
             RF_cmdTx[8*i+digit].pNextOp=&RF_cmdTx[8*i+digit+1];
         }
     }
-    RF_cmdTx[8*i+7].pNextOp=0;
+    RF_cmdTx[8*i-1].pNextOp=0;
     //Semaphore_pend(RF_Busy_Handle);
     RF_EventMask terminationReason = RF_postCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, HARDLINK_RF_EVENT_MASK);
 
     return 0;
+}
+
+void pack_commands(){
+    uint8_t byte = packet_data[packet_current];
+    uint8_t digit;
+    uint16_t i;
+
+    for(i=0;i<8;i++){
+               RF_cmdTx[i].commandNo = 0x3801;
+               RF_cmdTx[i].status = 0x0000;
+               RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
+               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(20);
+               RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
+               RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
+               RF_cmdTx[i].startTrigger.triggerNo = 0x0;
+               RF_cmdTx[i].startTrigger.pastTrig = 0x0;
+               RF_cmdTx[i].condition.rule = 0x0;
+               RF_cmdTx[i].condition.nSkip = 0x0;
+               RF_cmdTx[i].pktConf.bFsOff = 0x0;
+               RF_cmdTx[i].pktConf.bUseCrc = 0x1;
+               RF_cmdTx[i].pktConf.bVarLen = 0x1;
+               RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
+               RF_cmdTx[i].syncWord = 0x930B51DE;
+               RF_cmdTx[i].pPkt = 0;
+        }
+        for(i=0;i<7;i++){
+            RF_cmdTx[i].pNextOp = &RF_cmdTx[i+1];
+        }
+    for(digit=0;digit<8;digit++){
+        if(byte & 1 << digit){
+            RF_cmdTx[digit].pPkt = prs_1;
+        }
+        else{
+            RF_cmdTx[digit].pPkt = prs_0;
+        }
+    }
+
+
+     packet_current+=1;
 }
 
 int HardLink_send(HardLink_packet_t packet){
@@ -210,23 +238,16 @@ int HardLink_send(HardLink_packet_t packet){
         return -1;
     }
 
-    size_t i;
-    for(i=0; i<packet->size;i++){
-        uint8_t byte = packet->payload[i];
-        uint8_t digit;
-        for(digit=0;digit<8;digit++){
-            if(byte & 1 << digit){
-                RF_cmdTx[8*i+digit].pPkt = prs_1;
-            }
-            else{
-                RF_cmdTx[8*i+digit].pPkt = prs_0;
-            }
-            RF_cmdTx[8*i+digit].pNextOp=&RF_cmdTx[8*i+digit+1];
-        }
+    packet_length=packet->size;
+    packet_current=0;
+    memcpy(packet_data,packet->payload,packet->size);
+
+    while(packet_current < packet_length){
+        pack_commands();
+
+        //Semaphore_pend(RF_Busy_Handle);
+        RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
     }
-    RF_cmdTx[8*i+7].pNextOp=0;
-    //Semaphore_pend(RF_Busy_Handle);
-    RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
     //Semaphore_post(RF_Busy_Handle);
     return 0;
 }

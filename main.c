@@ -51,7 +51,7 @@ int main(void)
 {
 	/* Initialize TI drivers */
     Board_initGeneral();
-    PIN_init(pinTable);
+    PIN_init(pinTable);uint16_t i;
 
     /* Setup watchdog */
 //	wdtSetup();
