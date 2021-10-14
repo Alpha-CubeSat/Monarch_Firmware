@@ -187,7 +187,7 @@ int HardLink_sendAsync(HardLink_packet_t packet){
 
     return 0;
 }
-uint8_t asd[8];
+
 void pack_commands(){
     uint8_t byte = packet_data[packet_current];
     uint8_t digit;
@@ -197,7 +197,7 @@ void pack_commands(){
                RF_cmdTx[i].commandNo = 0x3801;
                RF_cmdTx[i].status = 0x0000;
                RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(10);
+               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(15);
                RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
                RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
                RF_cmdTx[i].startTrigger.triggerNo = 0x0;
@@ -207,7 +207,7 @@ void pack_commands(){
                RF_cmdTx[i].pktConf.bFsOff = 0x0;
                RF_cmdTx[i].pktConf.bUseCrc = 0x1;
                RF_cmdTx[i].pktConf.bVarLen = 0x1;
-               RF_cmdTx[i].pktLen = 1;//bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
+               RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
                RF_cmdTx[i].syncWord = 0x930B51DE;
                RF_cmdTx[i].pPkt = 0;
         }
@@ -216,7 +216,6 @@ void pack_commands(){
             RF_cmdTx[i].pNextOp = &RF_cmdTx[i+1];
         }
         for(digit=0;digit<8;digit++){
-        asd[digit] = 8*packet_current+ digit;
         if(byte & 1 << digit){
             RF_cmdTx[digit].pPkt = prs_1;
         }

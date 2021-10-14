@@ -168,6 +168,8 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 		PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
 		PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
+
+		memcpy(txPacket.payload,message,29);
 		HardLink_send(&txPacket);
 
 		Task_sleep(1000);
