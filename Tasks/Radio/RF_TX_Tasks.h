@@ -162,6 +162,10 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			}
 			txPacket.absTime = absTime + EasyLink_ms_To_RadioTime(0);*/
 		//}
+
+	        Watchdog_clear(watchdogHandle);
+	        Watchdog_close(watchdogHandle);
+
 		PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
 		PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
 		HardLink_send(&txPacket);
@@ -171,14 +175,13 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 		PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
 
 
-		Watchdog_clear(watchdogHandle);
-		Watchdog_close(watchdogHandle);
+
 
 
 		// Sleep for 20 min
 //		Task_sleep(30000000);
 //		Task_sleep(120000000);
-		Task_sleep(40000);
+		Task_sleep(10000);
 		Semaphore_post(startSemaphoreHandle);
 
 //		SysCtrlSystemReset();
