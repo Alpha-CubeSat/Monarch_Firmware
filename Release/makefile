@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS
+CG_TOOL_ROOT := /home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS
 
 GEN_OPTS__FLAG := --cmd_file="configPkg/compiler.opt"
 GEN_CMDS__FLAG := -l"configPkg/linker.cmd"
@@ -134,34 +134,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-Monarch_Firmware.out \
+Monarch_Software.out \
 
 EXE_OUTPUTS__QUOTED += \
-"Monarch_Firmware.out" \
+"Monarch_Software.out" \
 
 BIN_OUTPUTS += \
-Monarch_Firmware.hex \
+Monarch_Software.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"Monarch_Firmware.hex" \
+"Monarch_Software.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "Monarch_Firmware.out"
+	@$(MAKE) --no-print-directory -Onone "Monarch_Software.out"
 
 # Tool invocations
-Monarch_Firmware.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+Monarch_Software.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me -O2 --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Monarch_Firmware.map" -i"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source" -i"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Monarch_Firmware_linkInfo.xml" --rom_model -o "Monarch_Firmware.out" $(ORDERED_OBJS)
+	"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me -O2 --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Monarch_Software.map" -i"/home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/source" -i"/home/phoenix/ti/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages" -i"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Monarch_Software_linkInfo.xml" --rom_model -o "Monarch_Software.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-Monarch_Firmware.hex: $(EXE_OUTPUTS)
+Monarch_Software.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armhex"  -o "Monarch_Firmware.hex" $(EXE_OUTPUTS__QUOTED)
+	"/home/phoenix/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armhex"  -o "Monarch_Software.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 

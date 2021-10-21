@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: '/home/wpc/projects/CCS_workspace/Monarch_Firmware/hello.cfg',
+        cfgScript: '/home/phoenix/zztools/code_composer_studio/Monarch_Software/hello.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -41,7 +41,7 @@ else {
 
 var thisObj = {
     cfg:        '../hello.cfg',
-    outputPath: '/home/wpc/projects/CCS_workspace/Monarch_Firmware/Release/configPkg',
+    outputPath: '/home/phoenix/zztools/code_composer_studio/Monarch_Software/Release/configPkg',
     exeName:    'hello' + suffix,
     exeIntName: 'hello' + suffix.replace('.', '_'),
     targ:       targ,

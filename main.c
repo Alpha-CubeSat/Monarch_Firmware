@@ -8,6 +8,7 @@
 #include <xdc/std.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <xdc/runtime/System.h>
 #include <xdc/runtime/Error.h>
 
@@ -41,7 +42,6 @@
 #include <Tasks/Startup_Task.h>
 //#include <Tasks/I2C_Shutdown_Task.h>
 //#include <Tasks/PWM_Tasks.h>
-
 
 /*
  *  ======== main ========

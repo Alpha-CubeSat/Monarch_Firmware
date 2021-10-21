@@ -15,4 +15,5 @@
 	<templateProperties value="id=hello_CC1310_LAUNCHXL_tirtos_ccs.projectspec.hello_CC1310_LAUNCHXL_tirtos_ccs,type=rtsc,xdcToolsVersion=3.50.08.24.core,target=ti.targets.arm.elf.M3,platform=ti.platforms.simplelink:CC1310F128,buildProfile=release,isHybrid=true,configuroOptions= --compileOptions &quot;${COMPILER_FLAGS} -std=c99 &quot;"/>
 	<origin value="/Users/hunteradams/ti/simplelink_cc13x0_sdk_2_30_00_20/examples/rtos/CC1310_LAUNCHXL/sysbios/hello/tirtos/ccs/hello_CC1310_LAUNCHXL_tirtos_ccs.projectspec"/>
 	<filesToOpen value=""/>
+	<isTargetManual value="true"/>
 </projectOptions>

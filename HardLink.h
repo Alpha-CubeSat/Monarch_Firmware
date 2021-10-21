@@ -30,8 +30,8 @@ typedef enum
 } HardLink_status;
 
 typedef struct HardLink_packet{
-    uint8_t payload[MAX_SEGMENT_SIZE];
-    size_t size;
+    uint8_t payload[MAX_SEGMENT_SIZE];   // max sending size
+    size_t size;                         // actual sending size
 }* HardLink_packet_t;
 
 typedef void (* HardLink_tx_cb)(HardLink_status);

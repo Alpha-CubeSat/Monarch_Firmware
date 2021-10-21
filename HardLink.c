@@ -246,7 +246,6 @@ int HardLink_send(HardLink_packet_t packet){
 
     while(packet_current < packet_length){
         printf("Sending %dth byte\n",packet_current);
-        fflush(stdout);
         pack_commands();
         //Semaphore_pend(RF_Busy_Handle);
         RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);

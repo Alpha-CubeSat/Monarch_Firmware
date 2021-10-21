@@ -2,7 +2,7 @@
  *  Do not modify this file; it is automatically 
  *  generated and any modifications will be overwritten.
  *
- * @(#) xdc-E10
+ * @(#) xdc-F07
  */
 
 #define __nested__
@@ -1905,7 +1905,7 @@ __FAR__ const xdc_SizeT ti_sysbios_knl_Task_Module_State_terminatedQ__O = offset
  *  Define absolute path prefix for this executable's
  *  configuration generated files.
  */
-xdc__META(__ASM__, "@(#)__ASM__ = /home/wpc/projects/CCS_workspace/Monarch_Firmware/Release/configPkg/package/cfg/hello_pem3");
+xdc__META(__ASM__, "@(#)__ASM__ = /home/phoenix/zztools/code_composer_studio/Monarch_Software/Release/configPkg/package/cfg/hello_pem3");
 
 /*
  *  ======== __ISA__ ========
