@@ -54,7 +54,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
         printf("sending iteration : %d\n", iteration);
         ++iteration;
 //        // wait for sensor data from 1 thread
-//        Semaphore_pend(txDataSemaphoreHandle, 1000);
+        Semaphore_pend(txDataSemaphoreHandle, 10000);
         // ???
         Power_setDependency(PowerCC26XX_PERIPH_TRNG);
         // initialize transmitting packet
@@ -102,8 +102,8 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
         txPacket.size = packetlen;
 
         // watchdog to set timeout of program
-//        Watchdog_clear(watchdogHandle);
-//        Watchdog_close(watchdogHandle);
+        Watchdog_clear(watchdogHandle);
+        Watchdog_close(watchdogHandle);
 
         PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
         PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
@@ -116,7 +116,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
         PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
 
 //        // unit 10 microseconds, which means 1 second = Task_sleep(1000000)
-//        Task_sleep(100000);
+        Task_sleep(100000);
 //        Semaphore_post(startSemaphoreHandle);
     }
 }
