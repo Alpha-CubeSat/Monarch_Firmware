@@ -50,7 +50,7 @@ static uint8_t configured = 1;
 static uint8_t suspended = 0;
 
 // local commands, contents will be defined by modulation type
-static rfc_CMD_FS_t HardLink_cmdFs;
+//static rfc_CMD_FS_t HardLink_cmdFs;
 /*
 static Semaphore_Struct RF_Busy;
 static Semaphore_Handle RF_Busy_Handle;
@@ -85,7 +85,7 @@ size_t packet_length;
 size_t packet_current;
 
 int HardLink_init(){
-    uint16_t i;
+
 /*
     Semaphore_construct(&RF_Busy, 1, &semparams);
     RF_Busy_Handle = Semaphore_handle(&RF_Busy);*/
