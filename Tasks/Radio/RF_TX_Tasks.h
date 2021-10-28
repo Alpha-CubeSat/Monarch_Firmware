@@ -13,6 +13,7 @@
 #include "../../Peripherals/Pin_Initialization.h"
 #include "../Semaphore_Initialization.h"
 #include "../IMU/LSM9DS1.h"
+#include "HardLink.h"
 //#include "TRIAD.h"
 
 Task_Struct txDataTask;
@@ -27,34 +28,21 @@ uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 
 Void txDataTaskFunc(UArg arg0, UArg arg1)
 {
-	EasyLink_Params easyLink_params;
-	EasyLink_Params_init(&easyLink_params);
-
-	easyLink_params.ui32ModType = EasyLink_Phy_50kbps2gfsk;
-
-	/* Initialize EasyLink */
-	if(EasyLink_init(&easyLink_params) != EasyLink_Status_Success)
-	{
-		System_abort("EasyLink_init failed");
-	}
-
-
-	//EasyLink_init(EasyLink_Phy_Custom);
-//	EasyLink_init(EasyLink_Phy_50kbps2gfsk);
-	//EasyLink_init(EasyLink_Phy_5kbpsSlLr);
-	EasyLink_setRfPower(14);
-	EasyLink_enableRxAddrFilter((uint8_t*)&AddressList, 1, 2);
-	EasyLink_setFrequency(915000000);
+    HardLink_init();
+    HardLink_setRfPower(5);
+    HardLink_setFrequency(915000000);
+    long iteration = 0;
 
 	uint16_t counter = 0x00;
 	while(1) {
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
 		Semaphore_pend(batonSemaphoreHandle, BIOS_WAIT_FOREVER);
 
+		// goodToGo is unlocked in task magTaskFunc
 		if(goodToGo){
 
-			EasyLink_abort();
-			EasyLink_TxPacket txPacket =  { {0}, 0, 0, {0} };
+//			EasyLink_abort();
+		    struct HardLink_packet txPacket;
 
 //			txPacket.payload[0] = BEACON;
 //			txPacket.payload[1] = PERSONAL_ADDRESS;
@@ -67,6 +55,10 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			txPacket.payload[5] = lowerPart(ay);
 			txPacket.payload[6] = upperPart(az);
 			txPacket.payload[7] = lowerPart(az);
+
+			// how may Bytes of data is going to be sent
+	        uint16_t packetlen = RFEASYLINKTXPAYLOAD_LENGTH;
+	        txPacket.size = packetlen;
 
 			if (counter > 0xfffe){
 				counter = 0;
@@ -81,22 +73,20 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 //			}
 //			txPacket.payload[4] = counter;
 
-			txPacket.len = RFEASYLINKTXPAYLOAD_LENGTH;
-			txPacket.dstAddr[0] = 0xaa;
-			txPacket.absTime = 0;
-			EasyLink_Status result = EasyLink_transmit(&txPacket);
 
-			if (result == EasyLink_Status_Success)
+			HardLink_status result = HardLink_send(&txPacket);
+
+			if (result == HardLink_status_Success)
 			{
-				/* Toggle LED1 to indicate TX */
-//				PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
+				/* Toggle LEDs to indicate TX */
+		        PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
+		        PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
+		        Task_sleep(20000);
 			}
-			else
-			{
-				/* Toggle LED1 and LED2 to indicate error */
-				PIN_setOutputValue(pinHandle, Board_PIN_LED1,!PIN_getOutputValue(Board_PIN_LED1));
-				PIN_setOutputValue(pinHandle, Board_PIN_LED2,!PIN_getOutputValue(Board_PIN_LED2));
-			}
+
+	        PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
+	        PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
+
 			Semaphore_post(rxRestartSemaphoreHandle);
 		}
 		Semaphore_post(batonSemaphoreHandle);
