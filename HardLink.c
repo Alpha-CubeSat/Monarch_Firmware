@@ -3,6 +3,7 @@
 #include "HardLink.h"
 #include "RFQueue.h"
 #include "Board.h"
+#include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Semaphore.h>
 
 #include DeviceFamily_constructPath(driverlib/rf_prop_mailbox.h)
@@ -193,12 +194,14 @@ void pack_commands(){
     uint8_t digit;
     uint16_t i;
 
+    // every command only sends 1 bit raw data
     for(i=0;i<8;i++){
                RF_cmdTx[i].commandNo = 0x3801;
                RF_cmdTx[i].status = 0x0000;
                RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(500);  // unit ms
+               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(15);  // unit ms
                RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
+               /** RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_START; */
                RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
                RF_cmdTx[i].startTrigger.triggerNo = 0x0;
                RF_cmdTx[i].startTrigger.pastTrig = 0x0;
@@ -211,9 +214,11 @@ void pack_commands(){
                RF_cmdTx[i].syncWord = 0x930B51DE;
                RF_cmdTx[i].pPkt = 0;
         }
-        RF_cmdTx[0].startTrigger.triggerType = TRIG_REL_SUBMIT;
+        RF_cmdTx[0].startTrigger.triggerType = TRIG_REL_FIRSTSTART;
+        RF_cmdTx[7].condition.rule = 0x1;
         for(i=0;i<7;i++){
             RF_cmdTx[i].pNextOp = &RF_cmdTx[i+1];
+            /** RF_cmdTx[i].pNextOp = 0; */
         }
         for(digit=0;digit<8;digit++){
         if(byte & 1 << digit){
@@ -247,8 +252,30 @@ int HardLink_send(HardLink_packet_t packet){
 //        printf("Sending %dth byte\n",packet_current);
 //        fflush(stdout);
         pack_commands();
-        //Semaphore_pend(RF_Busy_Handle);
-        RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
+        //Semaphore_pend(RF_Busy_Htask_andle);
+        int i = 0;
+        RF_EventMask terminationReason;
+        /** for(; i < 8; ++i) */
+        /** { */
+        /**  terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[i],RF_PriorityNormal, NULL, 0); */
+        /** } */
+        terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
+        for(i = 0; i < 8; ++i)
+        {
+            if((RF_cmdTx[i].status & 0x800) || (RF_cmdTx[i].status & 0x3000))
+            {
+                uint16_t status = RF_cmdTx[i].status;
+                pack_commands();
+                RF_cmdTx[0].pPkt = &status;
+                RF_cmdTx[0].pktLen = sizeof(status); // SET APPLICATION PAYLOAD LENGTH
+                terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
+
+                while(1);
+            }
+        }
+        if(terminationReason != RF_EventLastCmdDone){
+            while(1);
+        }
     }
     //Semaphore_post(RF_Busy_Handle);
     return 0;

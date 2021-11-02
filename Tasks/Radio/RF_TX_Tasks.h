@@ -37,7 +37,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 	uint16_t counter = 0x00;
 	// delay to wait for initializing
-	Task_sleep(100000);
+	Task_sleep(200000);
 	while(1) {
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
 		Semaphore_pend(batonSemaphoreHandle, BIOS_WAIT_FOREVER);
