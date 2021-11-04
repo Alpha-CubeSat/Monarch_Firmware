@@ -57,7 +57,7 @@ static Semaphore_Handle RF_Busy_Handle;
 */
 HardLink_tx_cb sendAsync_cb;
 
-unsigned char prs_0[64] = {
+volatile unsigned char prs_0[64] = {
   0b00000001, 0b01011110, 0b11010100, 0b01100001, 0b00001011, 0b11110011, 0b00110001, 0b01011100,
   0b01100110, 0b10010010, 0b01011011, 0b00101010, 0b11100000, 0b10100011, 0b00000000, 0b11100001,
   0b10111011, 0b10011111, 0b00110001, 0b11001111, 0b11110111, 0b11000000, 0b10110010, 0b01110101,
@@ -68,7 +68,7 @@ unsigned char prs_0[64] = {
   0b00010000, 0b10000101, 0b00101000, 0b00011101, 0b01011100, 0b10101111, 0b01100100, 0b11011010
 };
 
-unsigned char prs_1[64] = {
+volatile  unsigned char prs_1[64] = {
   0b11111101, 0b00111110, 0b01110111, 0b11010101, 0b00100101, 0b11101111, 0b00101100, 0b01101001,
   0b00101010, 0b11101001, 0b00111100, 0b11000100, 0b00000111, 0b10010011, 0b11000101, 0b00000111,
   0b00110111, 0b00011111, 0b01111011, 0b11010001, 0b10111010, 0b00000111, 0b10010000, 0b00110111,
@@ -244,8 +244,8 @@ int HardLink_send(HardLink_packet_t packet){
     memcpy(packet_data,packet->payload,packet->size);
 
     while(packet_current < packet_length){
-        printf("Sending %dth byte\n",packet_current);
-        fflush(stdout);
+//        printf("Sending %dth byte\n",packet_current);
+//        fflush(stdout);
         pack_commands();
         //Semaphore_pend(RF_Busy_Handle);
         RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
