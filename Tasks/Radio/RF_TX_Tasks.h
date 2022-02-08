@@ -22,7 +22,8 @@ Task_Struct txDataTask;
 static uint8_t txDataTaskStack[700];
 #pragma DATA_ALIGN(txDataTaskStack, 8)
 
-uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0xf3, 0x40, 0xff, 0x11,
+// receive order : 0010 0000 -> 0000 0100, 0101 0011 -> 1100 1010 ...
+uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 		0x59, 0x53, 0x54, 0x45, 0x4d, 0x53, 0x20, 0x44, 0x45, 0x53,
 		0x49, 0x47, 0x4e, 0x20, 0x53, 0x54, 0x55, 0x44, 0x49, 0x4f,
 		0x20, 0x20};
@@ -30,11 +31,13 @@ uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0xf3, 0x40, 0xff, 0x11,
 Void txDataTaskFunc(UArg arg0, UArg arg1)
 {
     HardLink_init();
-    HardLink_setRfPower(5);
+    HardLink_setRfPower(14);
     HardLink_setFrequency(915000000);
     long iteration = 0;
 
 	uint16_t counter = 0x00;
+	// delay to wait for initializing
+	Task_sleep(100000);
 	while(1) {
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
 		Semaphore_pend(batonSemaphoreHandle, BIOS_WAIT_FOREVER);
@@ -74,14 +77,10 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 //			}
 //			txPacket.payload[4] = counter;
 
+
 			memcpy(txPacket.payload, message, 8);
 			HardLink_status result = HardLink_send(&txPacket);
-			++iteration;
-			if(iteration == 2)
-			    Task_sleep(1000 * 100000);
-
-            // watch dog
-            Watchdog_clear(watchdogHandle);
+			Task_sleep(1000 * 100000);
 
 			if (result == HardLink_status_Success)
 			{
