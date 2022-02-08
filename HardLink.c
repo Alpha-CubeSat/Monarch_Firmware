@@ -127,68 +127,6 @@ int HardLink_init(){
     return 0;
 }
 
-void callback(RF_Handle h, RF_CmdHandle ch, RF_EventMask e)
-{
-    // if state of RX data entry is finished
-    if(e & RF_EventRxEntryDone)
-    {
-        // get current unhandled data entry
-        currentDataEntry = RFQueue_getDataEntry();
-        
-        /* Handle the packet data, located at &currentDataEntry->data:
-         * - Length is the first byte with the current configuration
-         * - Data starts from the second byte */    
-        packetLength      = *(uint8_t*)(&currentDataEntry->data);
-        packetDataPointer = (uint8_t*)(&currentDataEntry->data + 1);
-
-        /* Copy the payload + the status byte to the packet variable */
-        memcpy(packet, packetDataPointer, (packetLength + 1));
-
-        RFQueue_nextEntry();
-    }
-    return;
-}
-
-void HardLink_sendSync_cb(RF_Handle h, RF_CmdHandle ch, RF_EventMask e){
-
-}
-
-int HardLink_receive()
-{
-    RF_EventMask terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdPropTx,
-                                               RF_PriorityNormal, &callback,
-                                               RF_EventRxEntryDone);
-    while(1);
-}
-
-int HardLink_sendAsync(HardLink_packet_t packet){
-    //malloc has a risk of memory leaking
-
-    if(!packet || !packet->payload){
-        return -1;
-    }
-
-    size_t i;
-    for(i=0; i<packet->size;i++){
-        uint8_t byte = packet->payload[i];
-        uint8_t digit;
-        for(digit=0;digit<8;digit++){
-            if(byte & 1 << digit){
-                RF_cmdTx[8*i+digit].pPkt = prs_1;
-            }
-            else{
-                RF_cmdTx[8*i+digit].pPkt = prs_0;
-            }
-            RF_cmdTx[8*i+digit].pNextOp=&RF_cmdTx[8*i+digit+1];
-        }
-    }
-    RF_cmdTx[8*i-1].pNextOp=0;
-    //Semaphore_pend(RF_Busy_Handle);
-    RF_EventMask terminationReason = RF_postCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, HARDLINK_RF_EVENT_MASK);
-
-    return 0;
-}
-
 void pack_commands(){
     uint8_t byte = packet_data[packet_current];
     uint8_t digit;
