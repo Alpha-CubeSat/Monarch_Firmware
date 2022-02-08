@@ -7,7 +7,7 @@
 #include <ti/sysbios/knl/Semaphore.h>
 
 #include DeviceFamily_constructPath(driverlib/rf_prop_mailbox.h)
-
+extern PIN_Handle pinHandle;
 #define RF_convertUsToRatTicks(microseconds) \
     ((uint32_t)(microseconds) * 4)
 
@@ -204,7 +204,7 @@ void pack_commands(){
                /** RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_START; */
                RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
                RF_cmdTx[i].startTrigger.triggerNo = 0x0;
-               RF_cmdTx[i].startTrigger.pastTrig = 0x0;
+               RF_cmdTx[i].startTrigger.pastTrig = 0x1;
                RF_cmdTx[i].condition.rule = 0x0;
                RF_cmdTx[i].condition.nSkip = 0x0;
                RF_cmdTx[i].pktConf.bFsOff = 0x0;
@@ -214,7 +214,7 @@ void pack_commands(){
                RF_cmdTx[i].syncWord = 0x930B51DE;
                RF_cmdTx[i].pPkt = 0;
         }
-        RF_cmdTx[0].startTrigger.triggerType = TRIG_REL_FIRSTSTART;
+        RF_cmdTx[0].startTrigger.triggerType = TRIG_NOW;
         RF_cmdTx[7].condition.rule = 0x1;
         for(i=0;i<7;i++){
             RF_cmdTx[i].pNextOp = &RF_cmdTx[i+1];
@@ -252,27 +252,12 @@ int HardLink_send(HardLink_packet_t packet){
 //        printf("Sending %dth byte\n",packet_current);
 //        fflush(stdout);
         pack_commands();
-        //Semaphore_pend(RF_Busy_Htask_andle);
-        int i = 0;
-        RF_EventMask terminationReason;
-        /** for(; i < 8; ++i) */
-        /** { */
-        /**  terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[i],RF_PriorityNormal, NULL, 0); */
-        /** } */
-        terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
-        for(i = 0; i < 8; ++i)
-        {
-            if((RF_cmdTx[i].status & 0x800) || (RF_cmdTx[i].status & 0x3000))
-            {
-                uint16_t status = RF_cmdTx[i].status;
-                pack_commands();
-                RF_cmdTx[0].pPkt = &status;
-                RF_cmdTx[0].pktLen = sizeof(status); // SET APPLICATION PAYLOAD LENGTH
-                terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
 
-                while(1);
-            }
-        }
+        RF_EventMask terminationReason;
+        terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
+
+        Task_sleep(10000);
+
         if(terminationReason != RF_EventLastCmdDone){
             while(1);
         }

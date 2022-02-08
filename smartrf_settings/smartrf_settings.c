@@ -35,6 +35,7 @@
 #include <ti/drivers/rf/RF.h>
 #include DeviceFamily_constructPath(rf_patches/rf_patch_cpe_genfsk.h)
 #include DeviceFamily_constructPath(rf_patches/rf_patch_rfe_genfsk.h)
+#include DeviceFamily_constructPath(inc/hw_rfc_dbell.h)
 #include "smartrf_settings.h"
 
 
@@ -101,6 +102,7 @@ static uint32_t pOverrides[] =
     // Tx: Set PA trim to max (in ADI0, set PACTL0=0xF8)
     ADI_REG_OVERRIDE(0,12,0xF8),
 #endif
+    HW_REG_OVERRIDE(0x1110, RFC_DBELL_SYSGPOCTL_GPOCTL0_RATGPO2 | RFC_DBELL_SYSGPOCTL_GPOCTL1_MCEGPO0),
     (uint32_t)0xFFFFFFFF,
 };
 
@@ -122,6 +124,7 @@ rfc_CMD_PROP_RADIO_DIV_SETUP_t RF_cmdPropRadioDivSetup =
     .modulation.deviation = 0x64,
     .symbolRate.preScale = 0xF,
     .symbolRate.rateWord = 0x8000,
+    .symbolRate.decimMode = 0x0,
     .rxBw = 0x24,
     .preamConf.nPreamBytes = 0x4,
     .preamConf.preamMode = 0x0,
@@ -136,7 +139,7 @@ rfc_CMD_PROP_RADIO_DIV_SETUP_t RF_cmdPropRadioDivSetup =
     .config.bNoFsPowerUp = 0x0,
     .txPower = 0xA73F,
     .pRegOverride = pOverrides,
-    .centerFreq = 0x0364,
+    .centerFreq = 0x0393,
     .intFreq = 0x8000,
     .loDivider = 0x05,
 };
@@ -154,7 +157,7 @@ rfc_CMD_FS_t RF_cmdFs =
     .startTrigger.pastTrig = 0x0,
     .condition.rule = 0x1,
     .condition.nSkip = 0x0,
-    .frequency = 0x0364,
+    .frequency = 0x0393,
     .fractFreq = 0x0000,
     .synthConf.bTxMode = 0x0,
     .synthConf.refFreq = 0x0,

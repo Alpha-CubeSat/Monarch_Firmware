@@ -22,6 +22,8 @@ Task_Struct txDataTask;
 static uint8_t txDataTaskStack[700];
 #pragma DATA_ALIGN(txDataTaskStack, 8)
 
+#define RF_TRANSMISSION_MIN_INTERVAL 300000//1E-5 s
+
 // receive order : 0010 0000 -> 0000 0100, 0101 0011 -> 1100 1010 ...
 uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 		0x59, 0x53, 0x54, 0x45, 0x4d, 0x53, 0x20, 0x44, 0x45, 0x53,
@@ -38,6 +40,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 	uint16_t counter = 0x00;
 	// delay to wait for initializing
 	Task_sleep(200000);
+	PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
 	while(1) {
 		Semaphore_pend(txDataSemaphoreHandle, BIOS_WAIT_FOREVER);
 		Semaphore_pend(batonSemaphoreHandle, BIOS_WAIT_FOREVER);
@@ -62,7 +65,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 			// how may Bytes of data is going to be sent
 	        uint16_t packetlen = RFEASYLINKTXPAYLOAD_LENGTH;
-	        txPacket.size = packetlen;
+	        txPacket.size = 8;//packetlen;
 
 			if (counter > 0xfffe){
 				counter = 0;
@@ -79,20 +82,14 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 
 			memcpy(txPacket.payload, message, 8);
-			HardLink_status result = HardLink_send(&txPacket);
-			Task_sleep(1000 * 100000);
-
-			if (result == HardLink_status_Success)
-			{
-				/* Toggle LEDs to indicate TX */
-		        PIN_setOutputValue(pinHandle, Board_PIN_LED0,1);
-		        PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
-		        Task_sleep(20000);
-			}
-
-	        PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
+            PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
+            HardLink_status result;
+            do{
+                result = HardLink_send(&txPacket);
+            }while(result != HardLink_status_Success);
+            Watchdog_clear(watchdogHandle);
 	        PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
-
+	        Task_sleep(RF_TRANSMISSION_MIN_INTERVAL);
 			Semaphore_post(rxRestartSemaphoreHandle);
 		}
 		Semaphore_post(batonSemaphoreHandle);

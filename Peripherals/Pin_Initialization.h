@@ -17,8 +17,8 @@
 #include "Board.h"
 
 /* Pin handles and states*/
-static PIN_Handle pinHandle;
-static PIN_State pinState;
+PIN_Handle pinHandle;
+PIN_State pinState;
 
 /*
  * Application button pin configuration table:
@@ -32,6 +32,9 @@ PIN_Config pinTable[] = {
 	CC1310_LAUNCHXL_PIN_RLED | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
 	CC1310_LAUNCHXL_PIN_GLED | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
 	IOID_15 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+	IOID_29 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+	IOID_30 | PIN_GPIO_OUTPUT_EN | PIN_GPIO_LOW | PIN_PUSHPULL | PIN_DRVSTR_MAX,
+
     PIN_TERMINATE
 };
 

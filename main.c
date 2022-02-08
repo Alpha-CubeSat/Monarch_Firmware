@@ -52,7 +52,8 @@ int main(void)
 
 	PWM_init();
 	pwmSetup();
-
+	PINCC26XX_setMux(pinHandle, IOID_29, PINCC26XX_MUX_RFC_GPO0);
+	PINCC26XX_setMux(pinHandle, IOID_30, PINCC26XX_MUX_RFC_GPO1);
     /* Use one or the other of the below. If using GPS, need UART */
     Display_init();
     displaySetup();
