@@ -13764,7 +13764,7 @@ __o = __obj[1283]  // ti.targets.arm.elf.M3/ccConfigOpts
 __o = __obj[1284]  // ti.targets.arm.elf.M3/ccOpts
     __o['$category'] = String(java.net.URLDecoder.decode('Struct', 'UTF-8'))
     __o['$name'] = String(java.net.URLDecoder.decode('ti.targets.arm.elf.M3%2FccOpts', 'UTF-8'))
-    __o['prefix'] = String(java.net.URLDecoder.decode('-mv7M3+--code_state%3D16+--float_support%3Dvfplib+-me+-O2+--include_path%3D%22%2Fhome%2Fwpc%2Fprojects%2FCCS_workspace%2FSprite%22+--include_path%3D%22%2Fhome%2Fwpc%2FUserSoftware%2FCCS%2Fsimplelink_cc13x0_sdk_2_30_00_20%2Fkernel%2Ftirtos%2Fpackages%2Fti%2Fsysbios%2Fposix%22+--include_path%3D%22%2Fhome%2Fwpc%2FUserSoftware%2FCCS%2Fccsv8%2Ftools%2Fcompiler%2Fti-cgt-arm_18.1.4.LTS%2Finclude%22+--define%3DDeviceFamily_CC13X0+-g+--diag_warning%3D225+--diag_warning%3D255+--diag_wrap%3Doff+--display_error_number+--gen_func_subsections%3Don+++-qq+-pdsw225', 'UTF-8'))
+    __o['prefix'] = String(java.net.URLDecoder.decode('-mv7M3+--code_state%3D16+--float_support%3Dvfplib+-me+-O4+--opt_for_speed%3D3+--include_path%3D%22%2Fhome%2Fwpc%2Fprojects%2FCCS_workspace%2FSprite%22+--include_path%3D%22%2Fhome%2Fwpc%2FUserSoftware%2FCCS%2Fccsv8%2Ftools%2Fcompiler%2Fti-cgt-arm_18.1.4.LTS%2Finclude%22+--include_path%3D%22%2Fhome%2Fwpc%2FUserSoftware%2FCCS%2Fsimplelink_cc13x0_sdk_2_30_00_20%2Fsource%2Fti%2Fposix%2Fccs%22+--define%3DDeviceFamily_CC13X0+-g+--diag_warning%3D225+--diag_warning%3D255+--diag_wrap%3Doff+--display_error_number+--gen_func_subsections%3Don+++-qq+-pdsw225', 'UTF-8'))
     __o['suffix'] = String(java.net.URLDecoder.decode('', 'UTF-8'))
 
 __o = __obj[1285]  // ti.targets.arm.elf.M3/compatibleSuffixes

@@ -22,14 +22,17 @@ Task_Struct txDataTask;
 static uint8_t txDataTaskStack[700];
 #pragma DATA_ALIGN(txDataTaskStack, 8)
 
-#define RF_TRANSMISSION_MIN_INTERVAL 300000//1E-5 s
+#define RF_TRANSMISSION_MIN_INTERVAL 0//1E-5 s
 
 // receive order : 0010 0000 -> 0000 0100, 0101 0011 -> 1100 1010 ...
-uint8_t message[30] = {0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
+uint8_t message[30] = /*{0x20, 0x53, 0x50, 0x41, 0x43, 0x45, 0x20, 0x53,
 		0x59, 0x53, 0x54, 0x45, 0x4d, 0x53, 0x20, 0x44, 0x45, 0x53,
 		0x49, 0x47, 0x4e, 0x20, 0x53, 0x54, 0x55, 0x44, 0x49, 0x4f,
-		0x20, 0x20};
-
+		0x20, 0x20};*/
+{0x0f, 0x55, 0x33, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f,
+        0x59, 0x53, 0x54, 0x45, 0x4d, 0x53, 0x20, 0x44, 0x45, 0x53,
+        0x49, 0x47, 0x4e, 0x20, 0x53, 0x54, 0x55, 0x44, 0x49, 0x4f,
+        0x20, 0x20};
 Void txDataTaskFunc(UArg arg0, UArg arg1)
 {
     HardLink_init();
@@ -48,11 +51,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 		// goodToGo is unlocked in task magTaskFunc
 		if(goodToGo){
 
-//			EasyLink_abort();
 		    struct HardLink_packet txPacket;
-
-//			txPacket.payload[0] = BEACON;
-//			txPacket.payload[1] = PERSONAL_ADDRESS;
 
 			txPacket.payload[0] = (counter>>8)&0xff;
 			txPacket.payload[1] = counter&0xff;
@@ -65,7 +64,7 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 
 			// how may Bytes of data is going to be sent
 	        uint16_t packetlen = RFEASYLINKTXPAYLOAD_LENGTH;
-	        txPacket.size = 8;//packetlen;
+	        txPacket.size = 3;//packetlen;
 
 			if (counter > 0xfffe){
 				counter = 0;
@@ -73,23 +72,19 @@ Void txDataTaskFunc(UArg arg0, UArg arg1)
 			else{
 				counter = counter + 0x01;
 			}
-//			int i=0;
-//			for (i = 0; i < sizeof(message); i++)
-//			{
-//			  txPacket.payload[i] = message[i];
-//			}
-//			txPacket.payload[4] = counter;
-
 
 			memcpy(txPacket.payload, message, 8);
             PIN_setOutputValue(pinHandle, Board_PIN_LED1,1);
             HardLink_status result;
+
             do{
                 result = HardLink_send(&txPacket);
             }while(result != HardLink_status_Success);
+
             Watchdog_clear(watchdogHandle);
 	        PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
-	        Task_sleep(RF_TRANSMISSION_MIN_INTERVAL);
+
+	        //Task_sleep(RF_TRANSMISSION_MIN_INTERVAL);
 			Semaphore_post(rxRestartSemaphoreHandle);
 		}
 		Semaphore_post(batonSemaphoreHandle);

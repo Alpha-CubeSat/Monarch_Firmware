@@ -20,11 +20,8 @@ ORDERED_OBJS += \
 "../CC1310_LAUNCHXL_TIRTOS.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/display/lib/display.aem3" \
--l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/mw/lcd/lib/lcd.aem3" \
--l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/grlib/lib/grlib.aem3" \
 -l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/rf/lib/rf_multiMode_cc13x0.aem3" \
 -l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/lib/drivers_cc13x0.aem3" \
--l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/drivers/pdm/lib/pdm_cc13x0.aem3" \
 -l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/ti/dpl/lib/dpl_cc13x0.aem3" \
 -l"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/ti/devices/cc13x0/driverlib/bin/ccs/driverlib.lib" \
 -llibc.a \
@@ -158,7 +155,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 Sprite.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me -O2 --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Sprite.map" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Sprite_linkInfo.xml" --rom_model -o "Sprite.out" $(ORDERED_OBJS)
+	"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl" -mv7M3 --code_state=16 --float_support=vfplib -me -O4 --opt_for_speed=3 --define=DeviceFamily_CC13X0 -g --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on -z -m"Sprite.map" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/lib" -i"/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Sprite_linkInfo.xml" --rom_model -o "Sprite.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

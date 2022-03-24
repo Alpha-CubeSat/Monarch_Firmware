@@ -58,32 +58,62 @@ static Semaphore_Handle RF_Busy_Handle;
 */
 HardLink_tx_cb sendAsync_cb;
 
-volatile unsigned char prs_0[64] = {
-  0b00000001, 0b01011110, 0b11010100, 0b01100001, 0b00001011, 0b11110011, 0b00110001, 0b01011100,
-  0b01100110, 0b10010010, 0b01011011, 0b00101010, 0b11100000, 0b10100011, 0b00000000, 0b11100001,
-  0b10111011, 0b10011111, 0b00110001, 0b11001111, 0b11110111, 0b11000000, 0b10110010, 0b01110101,
-  0b10101010, 0b10100111, 0b10100101, 0b00010010, 0b00001111, 0b01011011, 0b00000010, 0b00111101,
-  0b01001110, 0b01100000, 0b10001110, 0b00010111, 0b00110100, 0b10000101, 0b01100001, 0b01000101,
-  0b00000110, 0b10100010, 0b00110110, 0b00101111, 0b10101001, 0b00011111, 0b11010111, 0b11111101,
-  0b10011101, 0b01001000, 0b00011001, 0b00011000, 0b10101111, 0b00110110, 0b10010011, 0b00000000,
-  0b00010000, 0b10000101, 0b00101000, 0b00011101, 0b01011100, 0b10101111, 0b01100100, 0b11011010
+    volatile unsigned char prn_0[64] = {
+                                        0x0, 0x6e, 0xb5, 0x6a, 0xe8, 0x5e, 0x1c, 0xd1,
+                                        0xc9, 0x8d, 0x8c, 0x64, 0x54, 0xef, 0xca, 0xd6,
+                                        0x7a, 0xff, 0x60, 0xe2, 0x42, 0x4a, 0xd7, 0x23,
+                                        0xb0, 0x64, 0xca, 0x92, 0x77, 0x70, 0xb7, 0x4f,
+                                        0xe0, 0x49, 0x2e, 0x48, 0xbd, 0x18, 0x51, 0xd4,
+                                        0xd5, 0x31, 0x7d, 0x70, 0xe0, 0xbb, 0x17, 0x78,
+                                        0x19, 0xaa, 0x1d, 0x16, 0xf2, 0xfb, 0x9c, 0xc6,
+                                        0xd3, 0x5d, 0xfa, 0x24, 0x5b, 0x1, 0xa, 0x7d
+      /*0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,*/
+    };
+
+volatile  unsigned char prn_1[64] = {
+                                     0xff, 0x76, 0xa1, 0xdd, 0x38, 0xbf, 0xfc, 0x63,
+                                     0x3, 0xf5, 0x17, 0xbb, 0xc9, 0xdc, 0x46, 0x48,
+                                     0xbf, 0xfb, 0x28, 0x3, 0x8b, 0xc4, 0xc4, 0x2a,
+                                     0x9, 0x9a, 0x80, 0xfe, 0x72, 0x43, 0x12, 0xed,
+                                     0xfc, 0x3c, 0x44, 0x88, 0xa3, 0xc9, 0xcb, 0x70,
+                                     0xc, 0x69, 0x63, 0x88, 0x46, 0xc6, 0xbf, 0x2,
+                                     0x26, 0x85, 0xe4, 0xe2, 0xf7, 0xe1, 0x5, 0xbd,
+                                     0xbe, 0xa, 0xb1, 0x33, 0x1a, 0x59, 0x3d, 0xf9
+                                     /*0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+                                     0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff*/
 };
 
-volatile  unsigned char prs_1[64] = {
-  0b11111101, 0b00111110, 0b01110111, 0b11010101, 0b00100101, 0b11101111, 0b00101100, 0b01101001,
-  0b00101010, 0b11101001, 0b00111100, 0b11000100, 0b00000111, 0b10010011, 0b11000101, 0b00000111,
-  0b00110111, 0b00011111, 0b01111011, 0b11010001, 0b10111010, 0b00000111, 0b10010000, 0b00110111,
-  0b11011111, 0b01011010, 0b11101101, 0b11001000, 0b10001100, 0b01101001, 0b10010111, 0b00101001,
-  0b10101100, 0b11011001, 0b11010110, 0b00011010, 0b11010110, 0b10101000, 0b00000101, 0b11010011,
-  0b01101010, 0b11001011, 0b11010110, 0b01010010, 0b00111111, 0b11100111, 0b10000010, 0b10000110,
-  0b01101110, 0b10011010, 0b01100101, 0b10100110, 0b00101110, 0b01010100, 0b11110100, 0b01111010,
-  0b11001011, 0b00101110, 0b01100011, 0b10111111, 0b01010100, 0b11000100, 0b11010100, 0b01010100
+volatile  unsigned char preamble[64] = {
+                                        0x80, 0x7a, 0x2b, 0x86, 0xd0, 0xcf, 0x8c, 0x3a,
+                                        0x66, 0x49, 0xda, 0x54, 0x7, 0xc5, 0x0, 0x87,
+                                        0xdd, 0xf9, 0x8c, 0xf3, 0xef, 0x3, 0x4d, 0xae,
+                                        0x55, 0xe5, 0xa5, 0x48, 0xf0, 0xda, 0x40, 0xbc,
+                                        0x72, 0x6, 0x71, 0xe8, 0x2c, 0xa1, 0x86, 0xa2,
+                                        0x60, 0x45, 0x6c, 0xf4, 0x95, 0xf8, 0xeb, 0xbf,
+                                        0xb9, 0x12, 0x98, 0x18, 0xf5, 0x6c, 0xc9, 0x0,
+                                        0x8, 0xa1, 0x14, 0xb8, 0x3a, 0xf5, 0x26, 0x3b
 };
 
 rfc_CMD_PROP_TX_t RF_cmdTx[8];
+rfc_CMD_PROP_TX_t RF_preamble;
+
 uint8_t packet_data[MAX_SEGMENT_SIZE];
 size_t packet_length;
 size_t packet_current;
+
+
 
 int HardLink_init(){
 
@@ -137,17 +167,15 @@ void pack_commands(){
                RF_cmdTx[i].commandNo = 0x3801;
                RF_cmdTx[i].status = 0x0000;
                RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-               RF_cmdTx[i].startTime = RF_convertMsToRatTicks(15);  // unit ms
-               RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_PREVEND;
-               /** RF_cmdTx[i].startTrigger.triggerType = TRIG_REL_START; */
+               RF_cmdTx[i].startTrigger.triggerType = TRIG_NOW;
                RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
                RF_cmdTx[i].startTrigger.triggerNo = 0x0;
                RF_cmdTx[i].startTrigger.pastTrig = 0x1;
                RF_cmdTx[i].condition.rule = 0x0;
                RF_cmdTx[i].condition.nSkip = 0x0;
                RF_cmdTx[i].pktConf.bFsOff = 0x0;
-               RF_cmdTx[i].pktConf.bUseCrc = 0x1;
-               RF_cmdTx[i].pktConf.bVarLen = 0x1;
+               RF_cmdTx[i].pktConf.bUseCrc = 0x0;
+               RF_cmdTx[i].pktConf.bVarLen = 0x0;
                RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
                RF_cmdTx[i].syncWord = 0x930B51DE;
                RF_cmdTx[i].pPkt = 0;
@@ -160,19 +188,18 @@ void pack_commands(){
         }
         for(digit=0;digit<8;digit++){
         if(byte & 1 << digit){
-            RF_cmdTx[digit].pPkt = prs_1;
+            RF_cmdTx[digit].pPkt = prn_1;
         }
         else{
-            RF_cmdTx[digit].pPkt = prs_0;
+            RF_cmdTx[digit].pPkt = prn_0;
         }
     }
-
-
-     packet_current+=1;
+    packet_current+=1;
 }
 
 int HardLink_send(HardLink_packet_t packet){
     //malloc has a risk of memory leaking
+    RF_EventMask terminationReason;
 
     if(!packet){
         return -1;
@@ -186,15 +213,31 @@ int HardLink_send(HardLink_packet_t packet){
     packet_current=0;
     memcpy(packet_data,packet->payload,packet->size);
 
+    RF_preamble.commandNo = 0x3801;
+      RF_preamble.status = 0x0000;
+      RF_preamble.pNextOp = 0;
+      RF_preamble.startTrigger.triggerType = TRIG_NOW;
+      RF_preamble.startTrigger.bEnaCmd = 0x0;
+      RF_preamble.startTrigger.triggerNo = 0x0;
+      RF_preamble.startTrigger.pastTrig = 0x1;
+      RF_preamble.condition.rule = 0x1;
+      RF_preamble.condition.nSkip = 0x0;
+      RF_preamble.pktConf.bFsOff = 0x0;
+      RF_preamble.pktConf.bUseCrc = 0x0;
+      RF_preamble.pktConf.bVarLen = 0x0;
+      RF_preamble.pPkt = preamble;
+      RF_preamble.pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
+      RF_preamble.syncWord = 0x930B51DE;
+
+    terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_preamble,RF_PriorityNormal, NULL, 0);
+
+    if(terminationReason != RF_EventLastCmdDone){
+        while(1);
+    }
     while(packet_current < packet_length){
-//        printf("Sending %dth byte\n",packet_current);
-//        fflush(stdout);
         pack_commands();
 
-        RF_EventMask terminationReason;
         terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
-
-        Task_sleep(10000);
 
         if(terminationReason != RF_EventLastCmdDone){
             while(1);
