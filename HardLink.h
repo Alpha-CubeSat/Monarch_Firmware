@@ -36,8 +36,8 @@ typedef struct HardLink_packet{
 
 typedef void (* HardLink_tx_cb)(HardLink_status);
 
-extern int HardLink_init();
-extern int HardLink_send(HardLink_packet_t packet);
+extern HardLink_status HardLink_init();
+extern HardLink_status HardLink_send(HardLink_packet_t packet);
 extern uint32_t HardLink_getFrequency(void);
 extern HardLink_status HardLink_setFrequency(uint32_t ui32Frequency);
 extern HardLink_status HardLink_getRfPower(int8_t *pi8TxPowerdBm);

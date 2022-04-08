@@ -115,7 +115,7 @@ size_t packet_current;
 
 
 
-int HardLink_init(){
+HardLink_status HardLink_init(){
 
 /*
     Semaphore_construct(&RF_Busy, 1, &semparams);
@@ -154,7 +154,7 @@ int HardLink_init(){
     RF_cmdPropRx.pktConf.bRepeatOk = 1;
     RF_cmdPropRx.pktConf.bRepeatNok = 1;
 
-    return 0;
+    return HardLink_status_Success;
 }
 
 void pack_commands(){
@@ -197,7 +197,7 @@ void pack_commands(){
     packet_current+=1;
 }
 
-int HardLink_send(HardLink_packet_t packet){
+HardLink_status HardLink_send(HardLink_packet_t packet){
     //malloc has a risk of memory leaking
     RF_EventMask terminationReason;
 
@@ -244,7 +244,7 @@ int HardLink_send(HardLink_packet_t packet){
         }
     }
     //Semaphore_post(RF_Busy_Handle);
-    return 0;
+    return HardLink_status_Success;
 }
 
 uint32_t HardLink_getFrequency(void)
