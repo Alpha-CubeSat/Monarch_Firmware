@@ -37,7 +37,6 @@ static RF_Params rfParams;
 /* Receive dataQueue for RF core to fill in data */
 static dataQueue_t dataQueue;
 static rfc_dataEntryGeneral_t* currentDataEntry;
-static uint8_t packetLength;
 static uint8_t* packetDataPointer;
 static uint8_t packet[MAX_LENGTH + NUM_APPENDED_BYTES - 1];
 static uint8_t
@@ -106,12 +105,13 @@ volatile  unsigned char preamble[64] = {
                                         0x8, 0xa1, 0x14, 0xb8, 0x3a, 0xf5, 0x26, 0x3b
 };
 
-rfc_CMD_PROP_TX_t RF_cmdTx[8];
+const size_t CMD_CHAIN_LENGTH = 14;
+rfc_CMD_PROP_TX_t RF_cmdTx[CMD_CHAIN_LENGTH];
 rfc_CMD_PROP_TX_t RF_preamble;
 
-uint8_t packet_data[MAX_SEGMENT_SIZE];
+// uint8_t packet_data[MAX_SEGMENT_SIZE];
 size_t packet_length;
-size_t packet_current;
+// size_t packet_current;
 
 
 
@@ -157,45 +157,100 @@ HardLink_status HardLink_init(){
     return HardLink_status_Success;
 }
 
-void pack_commands(){
-    uint8_t byte = packet_data[packet_current];
-    uint8_t digit;
-    uint16_t i;
 
-    // every command only sends 1 bit raw data
-    for(i=0;i<8;i++){
-               RF_cmdTx[i].commandNo = 0x3801;
-               RF_cmdTx[i].status = 0x0000;
-               RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
-               RF_cmdTx[i].startTrigger.triggerType = TRIG_NOW;
-               RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
-               RF_cmdTx[i].startTrigger.triggerNo = 0x0;
-               RF_cmdTx[i].startTrigger.pastTrig = 0x1;
-               RF_cmdTx[i].condition.rule = 0x0;
-               RF_cmdTx[i].condition.nSkip = 0x0;
-               RF_cmdTx[i].pktConf.bFsOff = 0x0;
-               RF_cmdTx[i].pktConf.bUseCrc = 0x0;
-               RF_cmdTx[i].pktConf.bVarLen = 0x0;
-               RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
-               RF_cmdTx[i].syncWord = 0x930B51DE;
-               RF_cmdTx[i].pPkt = 0;
-        }
-        RF_cmdTx[0].startTrigger.triggerType = TRIG_NOW;
-        RF_cmdTx[7].condition.rule = 0x1;
-        for(i=0;i<7;i++){
-            RF_cmdTx[i].pNextOp = &RF_cmdTx[i+1];
-            /** RF_cmdTx[i].pNextOp = 0; */
-        }
-        for(digit=0;digit<8;digit++){
-        if(byte & 1 << digit){
-            RF_cmdTx[digit].pPkt = prn_1;
-        }
-        else{
-            RF_cmdTx[digit].pPkt = prn_0;
-        }
-    }
-    packet_current+=1;
-}
+// void HardLink_initPreamble() {
+//     RF_preamble.commandNo = 0x3801;
+//     RF_preamble.status = 0x0000;
+//     RF_preamble.pNextOp = 0;
+//     RF_preamble.startTrigger.triggerType = TRIG_NOW;
+//     RF_preamble.startTrigger.bEnaCmd = 0x0;
+//     RF_preamble.startTrigger.triggerNo = 0x0;
+//     RF_preamble.startTrigger.pastTrig = 0x1;
+//     RF_preamble.condition.rule = 0x1;
+//     RF_preamble.condition.nSkip = 0x0;
+//     RF_preamble.pktConf.bFsOff = 0x0;
+//     RF_preamble.pktConf.bUseCrc = 0x0;
+//     RF_preamble.pktConf.bVarLen = 0x0;
+//     RF_preamble.pPkt = preamble;
+//     RF_preamble.pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
+//     RF_preamble.syncWord = 0x930B51DE;
+// }
+
+// void HardLink_setRFcmdTX(size_t i) {
+//     RF_cmdTx[i].commandNo = 0x3801;
+//     RF_cmdTx[i].status = 0x0000;
+//     RF_cmdTx[i].pNextOp = 0; // INSERT APPLICABLE POINTER: (uint8_0x00000000t*)&xxx
+//     RF_cmdTx[i].startTrigger.triggerType = TRIG_NOW;
+//     RF_cmdTx[i].startTrigger.bEnaCmd = 0x0;
+//     RF_cmdTx[i].startTrigger.triggerNo = 0x0;
+//     RF_cmdTx[i].startTrigger.pastTrig = 0x1;
+//     RF_cmdTx[i].condition.rule = 0x0;
+//     RF_cmdTx[i].condition.nSkip = 0x0;
+//     RF_cmdTx[i].pktConf.bFsOff = 0x0;
+//     RF_cmdTx[i].pktConf.bUseCrc = 0x0;
+//     RF_cmdTx[i].pktConf.bVarLen = 0x0;
+//     RF_cmdTx[i].pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
+//     RF_cmdTx[i].syncWord = 0x930B51DE;
+//     RF_cmdTx[i].pPkt = 0;
+// }
+
+// /*
+// G generator matrix (used wiki: https://en.wikipedia.org/wiki/Hamming(7,4)):
+// [
+//     [1, 1, 1, 0, 0, 0, 0],
+//     [1, 0, 0, 1, 1, 0, 0],
+//     [0, 1, 0, 1, 0, 1, 0],
+//     [1, 1, 0, 1, 0, 0, 1]
+// ]
+
+// parityData [ 0-6 | 7-13 ]
+// */
+// void generateParity(int parityData[], size_t parityBase, int data[], size_t dataBase) {
+//     parityData[parityBase] = data[dataBase] ^ data[dataBase + 1] ^ data[dataBase + 3];
+//     parityData[parityBase + 1] = data[dataBase] ^ data[dataBase + 2] ^ data[dataBase + 3];
+//     parityData[parityBase + 3] = data[dataBase + 1] ^ data[dataBase + 2] ^ data[dataBase + 3];
+
+//     parityData[parityBase + 2] = data[dataBase];
+//     parityData[parityBase + 4] = data[dataBase + 1];
+//     parityData[parityBase + 5] = data[dataBase + 2];
+//     parityData[parityBase + 6] = data[dataBase + 3];
+// }
+
+
+// uint16_t addParity(uint8_t byte) {
+//     size_t dataLen = 8;
+//     size_t parityDataLen = 14;
+//     int data[dataLen];
+//     int parityData[parityDataLen];
+
+//     // transform int to bit array, position matches
+//     size_t i;
+//     for(i = dataLen - 1; i >= 0; --i) {
+//         data[i] = (byte & 1);
+//         byte >>= 1;
+//     }
+    
+//     /* get the parity data in the parityData array */
+//     // set offset
+//     size_t parityBase = 0;
+//     size_t dataBase = 0;
+//     // for left half data
+//     generateParity(parityData, parityBase, data, dataBase);
+//     // set offset
+//     parityBase = parityDataLen / 2;
+//     dataBase   = dataLen / 2;
+//     // for right half data
+//     generateParity(parityData, parityBase, data, dataBase);
+
+//     // transform bit array to int
+//     uint16_t res = 0;
+//     for(i = 0; i < parityDataLen; ++i) {
+//         res += parityData[i];
+//         res <<= 1;
+//     }
+
+//     return res;
+// } 
 
 HardLink_status HardLink_send(HardLink_packet_t packet){
     //malloc has a risk of memory leaking
@@ -209,41 +264,49 @@ HardLink_status HardLink_send(HardLink_packet_t packet){
         return -1;
     }
 
-    packet_length=packet->size;
-    packet_current=0;
-    memcpy(packet_data,packet->payload,packet->size);
+    // HardLink_initPreamble();
+    // terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_preamble,RF_PriorityNormal, NULL, 0);
 
-    RF_preamble.commandNo = 0x3801;
-      RF_preamble.status = 0x0000;
-      RF_preamble.pNextOp = 0;
-      RF_preamble.startTrigger.triggerType = TRIG_NOW;
-      RF_preamble.startTrigger.bEnaCmd = 0x0;
-      RF_preamble.startTrigger.triggerNo = 0x0;
-      RF_preamble.startTrigger.pastTrig = 0x1;
-      RF_preamble.condition.rule = 0x1;
-      RF_preamble.condition.nSkip = 0x0;
-      RF_preamble.pktConf.bFsOff = 0x0;
-      RF_preamble.pktConf.bUseCrc = 0x0;
-      RF_preamble.pktConf.bVarLen = 0x0;
-      RF_preamble.pPkt = preamble;
-      RF_preamble.pktLen = bytes_per_raw_bit; // SET APPLICATION PAYLOAD LENGTH
-      RF_preamble.syncWord = 0x930B51DE;
+    // if(terminationReason != RF_EventLastCmdDone){
+    //     while(1);
+    // }
 
-    terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_preamble,RF_PriorityNormal, NULL, 0);
+    // size_t packet_current;
+    // for(packet_current = 0; packet_current < packet->size; ++packet_current) {
+    //     // get original data, one byte at a time
+    //     uint8_t byte = (packet->payload)[packet_current];
+    //     // get original data with parity 
+    //     uint16_t parityByte = addParity(byte);
 
-    if(terminationReason != RF_EventLastCmdDone){
-        while(1);
-    }
-    while(packet_current < packet_length){
-        pack_commands();
+    //     // every command only sends 1 bit raw data
+    //     size_t i;
+    //     for(i = 0; i < CMD_CHAIN_LENGTH; ++i){
+    //         HardLink_setRFcmdTX(i);
+    //         RF_cmdTx[0].startTrigger.triggerType = TRIG_NOW;
+    //         RF_cmdTx[CMD_CHAIN_LENGTH - 1].condition.rule = 0x1;
+    //         for(i = 0; i < CMD_CHAIN_LENGTH  - 1; ++i){
+    //             RF_cmdTx[i].pNextOp = &RF_cmdTx[i + 1];
+    //             /** RF_cmdTx[i].pNextOp = 0; */
+    //         }
+    //         int digit;
+    //         for(digit = 0; digit < CMD_CHAIN_LENGTH; ++digit){
+    //             if(parityByte & (1 << digit)){
+    //                 RF_cmdTx[digit].pPkt = prn_1;
+    //             }
+    //             else{
+    //                 RF_cmdTx[digit].pPkt = prn_0;
+    //             }
+    //         }
+    //     }
 
-        terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
+    //     terminationReason = RF_runCmd(rfHandle, (RF_Op*)&RF_cmdTx[0],RF_PriorityNormal, NULL, 0);
 
-        if(terminationReason != RF_EventLastCmdDone){
-            while(1);
-        }
-    }
-    //Semaphore_post(RF_Busy_Handle);
+    //     if(terminationReason != RF_EventLastCmdDone){
+    //         while(1);
+    //     }
+
+    // }
+    // //Semaphore_post(RF_Busy_Handle);
     return HardLink_status_Success;
 }
 
