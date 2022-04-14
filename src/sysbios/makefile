@@ -17,7 +17,7 @@ CCOPTS = --endian=little -mv7M3 --abi=eabi -q -ms --opt_for_speed=0  --program_l
 
 BIOS_INC = -I"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/"
 ANNEX_INCS = 
-INCS = $(BIOS_INC) $(ANNEX_INCS) -I"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/" -I"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/" -I"/home/wpc/UserSoftware/CCS/xdctools_3_50_08_24_core/packages/" -I"../" -I"/packages//"  -I/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include 
+INCS = $(BIOS_INC) $(ANNEX_INCS) -I"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/source/" -I"/home/wpc/UserSoftware/CCS/simplelink_cc13x0_sdk_2_30_00_20/kernel/tirtos/packages/" -I"/home/wpc/UserSoftware/CCS/ccsv8/ccs_base/" -I"/home/wpc/UserSoftware/CCS/xdctools_3_50_08_24_core/packages/" -I"../" -I"/packages//"  -I/home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/include 
 
 CC = /home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl -c $(CCOPTS)
 ASM = /home/wpc/UserSoftware/CCS/ccsv8/tools/compiler/ti-cgt-arm_18.1.4.LTS/bin/armcl -c $(CCOPTS)

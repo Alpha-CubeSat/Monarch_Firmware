@@ -9,7 +9,6 @@
 #define TASKS_RADIO_RF_GLOBALS_H_
 
 #include "smartrf_settings/smartrf_settings.h"
-#include "easylink/EasyLink.h"
 #include "HardLink/HardLink.h"
 #include "Network_Types.h"
 
