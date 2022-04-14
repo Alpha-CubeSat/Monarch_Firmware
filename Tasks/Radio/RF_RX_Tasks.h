@@ -38,12 +38,7 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
         		globalPacket.payload[i] = rxPacket->payload[i];
         		i += 1;
         }
-        if (globalPacket.payload[0] == BEACON){
-        		Semaphore_post(rxBeaconSemaphoreHandle);
-        }
-        else {
-        		Semaphore_post(rxRestartSemaphoreHandle);
-        }
+		Semaphore_post(rxRestartSemaphoreHandle);
 
     }
     else if(status == EasyLink_Status_Aborted)
@@ -66,46 +61,14 @@ void rxDoneCb(EasyLink_RxPacket * rxPacket, EasyLink_Status status)
 Void rxRestartFunc(UArg arg0, UArg arg1)
 {
     while(1) {
+    		if(halt){
+    			EasyLink_abort();
+    			PIN_setOutputValue(pinHandle, Board_PIN_LED0,0);
+    			PIN_setOutputValue(pinHandle, Board_PIN_LED1,0);
+    			Task_sleep(600000000);
+		}
     		Semaphore_pend(rxRestartSemaphoreHandle, BIOS_WAIT_FOREVER);
     		EasyLink_receiveAsync(rxDoneCb, 0);
-    }
-}
-
-Void rxBeaconFunc(UArg arg0, UArg arg1)
-{
-    while(1) {
-    		Semaphore_pend(rxBeaconSemaphoreHandle, BIOS_WAIT_FOREVER);
-    		uint8_t senderAddress = globalPacket.payload[1];
-    		if (numConnections == 0){
-    			Connections[0] = senderAddress;
-    			numConnections += 1;
-//    			Display_printf(display, 0, 0, "%02x", Connections[0]);
-    			Semaphore_post(rxRestartSemaphoreHandle);
-    		}
-    		else {
-    			int index = 0;
-    			int similarities = 0;
-    			while (index < numConnections){
-    				if (Connections[index] == senderAddress){
-    					similarities = 1;
-    				}
-    				index += 1;
-    			}
-    			if(similarities){
-    				Semaphore_post(rxRestartSemaphoreHandle);
-    			}
-    			else{
-    				if (numConnections < MAXNEIGHBORS){
-						Connections[numConnections] = senderAddress;
-//						Display_printf(display, 0, 0, "%02x", Connections[numConnections]);
-						numConnections += 1;
-						Semaphore_post(rxRestartSemaphoreHandle);
-    				}
-    				else{
-    					Semaphore_post(rxRestartSemaphoreHandle);
-    				}
-    			}
-    		}
     }
 }
 
@@ -118,12 +81,6 @@ void createRFRXTasks()
     task_params.priority = 2;
 	task_params.stack = &rxRestartTaskStack;
 	Task_construct(&rxRestartTask, rxRestartFunc,
-				   &task_params, NULL);
-
-    task_params.stackSize = 300;
-    task_params.priority = 2;
-	task_params.stack = &rxBeaconTaskStack;
-	Task_construct(&rxBeaconTask, rxBeaconFunc,
 				   &task_params, NULL);
 }
 
