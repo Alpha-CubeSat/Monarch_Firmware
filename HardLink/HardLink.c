@@ -292,7 +292,7 @@ HardLink_status HardLink_send(HardLink_packet_t packet){
         // parityData order from left to right, start from index 2
         // sending order from right to left, start from the last digit
         int digit;
-        for(digit = 0; digit < CMD_CHAIN_LENGTH; ++digit){
+        for(digit = CMD_CHAIN_LENGTH - 1; digit >= 0; --digit){
             if(parityByte & (1 << digit)){
                 RF_cmdTx[digit].pPkt = prn_1;
             }
