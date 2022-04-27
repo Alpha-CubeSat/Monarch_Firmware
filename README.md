@@ -1,5 +1,7 @@
 ---
-# hello
+
+Hunter Adam has already implemented part of the [code](https://github.com/vha3/Monarch-Software/tree/vineyard) based on the EasyLink library. This project rewrote the radio library and other parts roughly remain the same.
+
 
 ---
 
