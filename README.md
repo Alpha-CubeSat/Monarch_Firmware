@@ -12,7 +12,12 @@ It demonstrates how to print to stdout.
 
 ## Example Usage
 
-* Run the application, the string `hello world` will be printed to the console.
+The platform used is listed here.
++ Code Composer Studio, version 8.3.1.00004.
++ Simplelink, version 2.30.0.20.
++ CC1310 microcontroller.
+
+After compiling and flushing the code into the CC1310 microcontroller, the LED should flash periodically. And the signal should be sent 
 
 ## Application Design Details
 * N/A
