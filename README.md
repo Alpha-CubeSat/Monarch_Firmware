@@ -1,30 +1,20 @@
 ---
 
-Hunter Adam has already implemented part of the [code](https://github.com/vha3/Monarch-Software/tree/vineyard) based on the EasyLink library. This project rewrote the radio library and other parts roughly remain the same.
-
+Hi. Welcome to the Monarch_Firmware project! Hunter Adam has the copyright of the original [code](https://github.com/vha3/Monarch-Software/tree/vineyard) based on the EasyLink library. This project rewrote the radio library to support long-distance communication and other parts of the code roughly remain the same.
 
 ---
 
-## Example Summary
+# Usage
 
-This application serves as a basic sanity check program for SYS/BIOS.
-It demonstrates how to print to stdout.
-
-## Example Usage
-
-The platform used is listed here.
+The platforms used are listed here.
 + Code Composer Studio, version 8.3.1.00004.
 + Simplelink, version 2.30.0.20.
-+ CC1310 microcontroller.
++ CC1310 microcontroller and launchpad.
 
-After compiling and flushing the code into the CC1310 microcontroller, the LED should flash periodically. And the signal should be sent 
+After compiling and flushing the code into the CC1310 microcontroller, the LED should flash periodically, and the encoded data should be sent in frequency 915 MHZ. 
 
-## Application Design Details
-* N/A
+Note that this code is in charge of the sending part of CC1310 microcontroller. The corresponding receiving part has another [repository](https://github.com/Alpha-CubeSat/Monarch-Ground-Station).
 
 ## References
-* For GNU and IAR users, please read the following website for details about
-enabling [semi-hosting](http://processors.wiki.ti.com/index.php/TI-RTOS_Examples_SemiHosting)
-in order to view console output.
-
-* For more help, search the SYS/BIOS User Guide.
+* [zac's paper](https://zacmanchester.github.io/docs/Zac_Manchester_PhD_Dissertation.pdf)
+* [zac's codel](https://github.com/kicksat/arduino_sprite/blob/master/libraries/SpriteRadio/SpriteRadio.cpp)
