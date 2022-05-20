@@ -1,6 +1,6 @@
 ---
 
-Hi. Welcome to the Monarch_Firmware project! Hunter Adam has the copyright of the original [code](https://github.com/vha3/Monarch-Software/tree/vineyard) based on the EasyLink library. This project rewrote the radio library to support long-distance communication and other parts of the code roughly remain the same.
+Welcome to the Monarch_Firmware project! Hunter Adam has the copyright of the original [code](https://github.com/vha3/Monarch-Software/tree/vineyard) based on the EasyLink library. This project rewrote the radio library to support long-distance communication and other parts of the code roughly remain the same.
 
 ---
 
