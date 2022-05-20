@@ -13,7 +13,7 @@ The platforms used are listed here.
 
 After compiling and flushing the code into the CC1310 microcontroller, the LED should flash periodically, and the encoded data should be sent in frequency 915 MHZ. 
 
-Note that this code is in charge of the sending part of CC1310 microcontroller. The corresponding receiving part has another [repository](https://github.com/Alpha-CubeSat/Monarch-Ground-Station).
+Note that this code is for the sending part of CC1310 microcontroller. The corresponding receiving part has another [repository](https://github.com/Alpha-CubeSat/Monarch-Ground-Station).
 
 ## References
 * [zac's paper](https://zacmanchester.github.io/docs/Zac_Manchester_PhD_Dissertation.pdf)
